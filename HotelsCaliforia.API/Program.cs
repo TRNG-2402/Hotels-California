@@ -1,4 +1,5 @@
 using HotelsCalifornia.Data;
+using HotelsCalifornia.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 // add multiple addscoped<Ixxx, xxx>, including Repo and Service
+builder.Services.AddScoped<IHotelRepository, HotelRepository>();
+builder.Services.AddScoped<IHotelService, HotelService>();
 
 
 var app = builder.Build();
