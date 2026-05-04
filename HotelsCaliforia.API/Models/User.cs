@@ -45,7 +45,7 @@ public class User
 public class Member : User
 {
     [Required]
-    [Range (9,14)]
+    [Range(9, 14)]
     public String LicenseNumber { get; set; }
     [Required]
     [MaxLength(50)]
@@ -56,12 +56,6 @@ public class Member : User
     public bool InBlocklist { get; set; } = false;
     public List<Reservation> Reservations { get; set; } = new List<Reservation>();
 
-}
-
-public class Manager : User
-{
-    [ForeignKey("Hotel")]
-    public int HotelId { get; set; }
 }
 
 public class Admin : User

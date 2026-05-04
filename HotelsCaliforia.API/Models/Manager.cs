@@ -9,10 +9,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelsCalifornia.Models;
 
-public class Manager
+public class Manager : User
 {
-    [Key]
-    public int Id { get; set; }
     // just assume the manager has no hotel
     [ForeignKey("Hotel")]
     public int? HotelId { get; set; }
