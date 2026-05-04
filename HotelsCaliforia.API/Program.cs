@@ -1,3 +1,4 @@
+using HotelsCalifornia.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 // Add DbContext here
-
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"))
+);
 
 // add multiple addscoped<Ixxx, xxx>, including Repo and Service
 

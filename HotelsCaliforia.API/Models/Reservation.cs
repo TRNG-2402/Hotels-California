@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Models;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,9 +13,9 @@ public class Reservation
 
     [ForeignKey("Room")]
     [Required]
-    public int RoomNumber { get; set; }
+    public int RoomId { get; set; }
 
-    [ForeignKey("Room")]
+    [ForeignKey("Hotel")]
     [Required]
     public int HotelId { get; set; }
 

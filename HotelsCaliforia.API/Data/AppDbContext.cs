@@ -28,9 +28,9 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Component key for room
-        modelBuilder.Entity<Room>(entity =>
-            entity.HasKey(r => new { r.RoomNumber, r.HotelId })
-        );
+        // modelBuilder.Entity<Room>(entity =>
+        //     entity.HasKey(r => new { r.RoomNumber, r.HotelId })
+        // );
         modelBuilder.Entity<User>()
             .HasDiscriminator<string>("User_type")
             .HasValue<Member>("Member")
