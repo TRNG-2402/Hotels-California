@@ -1,4 +1,5 @@
 using HotelsCalifornia.Data;
+using HotelsCalifornia.Middleware;
 using HotelsCalifornia.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,9 @@ builder.Services.AddScoped<IHotelService, HotelService>();
 
 
 var app = builder.Build();
-// add Middleware if necessary
 
+// add Middleware if necessary
+app.UseMiddleware<GlobalExceptionHandler>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
