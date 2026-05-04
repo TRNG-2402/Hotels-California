@@ -1,0 +1,70 @@
+
+/*  
+Member
+InBLOCKLIST
+Member id (pk)
+Membername
+PasswordHash
+Reservations(List<int> reservIds?)
+Driver’s License
+Email
+Phone number
+
+
+Manager
+Manager Id (pk)
+Hotel id
+Member ID (fk)
+
+Admin: 
+Admin Id (pk)
+Member ID (fk)
+
+*/
+
+
+
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HotelsCalifornia.Models;
+
+
+public class User
+{
+    [Key]
+    public int Id { get; set; }
+    [Required]
+    [MaxLength(20)]
+    public string Username { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public string PasswordHash { get; set; }
+}
+
+public class Member : User
+{
+    [Required]
+    [Range (9,14)]
+    public String LicenseNumber { get; set; }
+    [Required]
+    [MaxLength(50)]
+    public String Email { get; set; }
+    [Required]
+    public int PhoneNumber { get; set; }
+    public int RewardPoints { get; set; } = 0;
+    public bool InBlocklist { get; set; } = false;
+    public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+}
+
+public class Manager : User
+{
+    [ForeignKey("Hotel")]
+    public int HotelId { get; set; }
+}
+
+public class Admin : User
+{
+
+}

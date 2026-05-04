@@ -6,7 +6,6 @@ Description
 Address
 */
 using System.ComponentModel.DataAnnotations;
-using HotelsCalifornia.Models;
 namespace HotelsCalifornia.Models;
 
 
