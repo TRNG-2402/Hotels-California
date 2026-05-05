@@ -36,20 +36,20 @@ public class User
     public int Id { get; set; }
     [Required]
     [MaxLength(20)]
-    public string Username { get; set; }
+    public required string Username { get; set; }
     [Required]
     [MaxLength(50)]
-    public string PasswordHash { get; set; }
+    public required string PasswordHash { get; set; }
 }
 
 public class Member : User
 {
     [Required]
     [Range(9, 14)]
-    public String LicenseNumber { get; set; }
+    public required string LicenseNumber { get; set; }
     [Required]
     [MaxLength(50)]
-    public String Email { get; set; }
+    public required string Email { get; set; }
     [Required]
     public int PhoneNumber { get; set; }
     public int RewardPoints { get; set; } = 0;

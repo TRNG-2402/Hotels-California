@@ -28,6 +28,6 @@ public class Room
     [Required]
     public int NumBeds {get;set;} = 1;
     [MaxLength(200)]
-    public String? Description {get;set;}
+    public string? Description {get;set;}
 
 }
