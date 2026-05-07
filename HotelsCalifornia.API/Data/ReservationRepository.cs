@@ -22,6 +22,10 @@ public interface IReservationRepository
     /// Creates a new reservation based on a DTO
     /// </summary>
     Task<Reservation> CreateReservationAsync(NewReservationDTO newRes);
+    /// <summary>
+    /// Updates an existing reservation based on a DTO
+    /// </summary>
+    Task<Reservation> UpdateReservationAsync(UpdateReservationDTO updateRes);
 }
 
 public class ReservatioRepository(AppDbContext context) : IReservationRepository
@@ -64,12 +68,12 @@ public class ReservatioRepository(AppDbContext context) : IReservationRepository
     public async Task<Reservation> UpdateReservationAsync(UpdateReservationDTO updateRes)
     {
         Reservation res = await GetReservationAsync(updateRes.ReservationId);
-        if (updateRes.RoomId != 0 && res.RoomId != updateRes.RoomId)
-            res.RoomId = updateRes.RoomId;
-        if (updateRes.HotelId != 0 && res.HotelId != updateRes.HotelId)
-            res.HotelId = updateRes.HotelId;
         if (updateRes.CheckOutTime != null)
-            res.CheckOutTime = updateRes.CheckOutTime;
+        {
+            if (updateRes.CheckOutTime <= res.CheckInTime)
+                throw new ArgumentException("Check in must come after check out");
+            res.CheckOutTime = updateRes.CheckOutTime;   
+        }
         if (updateRes.IsCanceled)
             res.IsCanceled = true;
         if (updateRes.DriversLicense != null && res.DriversLicense != updateRes.DriversLicense)

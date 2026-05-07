@@ -7,5 +7,5 @@ public class NewReservationDTO
     public required DateTime CheckInTime { get; set; }
     public required string DriversLicense { get; set; }
     public required string Email { get; set; }
-    public int PhoneNumber { get; set; }
+    public long PhoneNumber { get; set; }
 }
