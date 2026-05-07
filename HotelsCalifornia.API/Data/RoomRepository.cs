@@ -30,7 +30,7 @@ public interface IRoomRepository
 
 public class RoomRepository(AppDbContext context) : IRoomRepository
 {
-    private AppDbContext _context = context;
+    private readonly AppDbContext _context = context;
 
     public async Task<IEnumerable<Room>> GetRoomsAsync()
     {
