@@ -22,7 +22,7 @@ public class Reservation
     [Required]
     public required DateTime CheckInTime { get; set; }
 
-    public DateTime CheckOutTime { get; set; }
+    public DateTime? CheckOutTime { get; set; }
 
     [Required]
     public required string DriversLicense { get; set; }
