@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HotelsCaliforia.API.Migrations
+namespace HotelsCalifornia.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260504194143_InitialCreate")]

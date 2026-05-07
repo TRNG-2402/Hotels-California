@@ -10,6 +10,10 @@ public interface IRoomService
     /// </summary>
     Task<IEnumerable<Room>> GetRoomsAsync();
     /// <summary>
+    /// Returns all the rooms attributed to a certain hotel
+    /// </summary>
+    Task<IEnumerable<Room>> GetRoomsByHotelAsync(int hotelId);
+    /// <summary>
     /// Returns a room from the database based on the entered ID
     /// </summary>
     Task<Room> GetRoomAsync(int roomId);
@@ -34,6 +38,13 @@ public class RoomService(IRoomRepository repo) : IRoomService
     public async Task<IEnumerable<Room>> GetRoomsAsync()
     {
         return await _repo.GetRoomsAsync();
+    }
+
+    public async Task<IEnumerable<Room>> GetRoomsByHotelAsync(int hotelId)
+    {
+        if (hotelId < 1)
+            throw new ArgumentOutOfRangeException("Hotel ID must be a positive number");
+        return await _repo.GetRoomsByHotelAsync(hotelId);
     }
 
     public async Task<Room> GetRoomAsync(int roomId)

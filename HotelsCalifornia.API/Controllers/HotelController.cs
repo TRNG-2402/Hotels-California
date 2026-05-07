@@ -17,7 +17,7 @@ public class HotelController(IHotelService service) : ControllerBase
         return Ok(await _service.GetHotelsAsync());
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("id/{id}")]
     public async Task<ActionResult<Hotel>> GetHotelByIdAsync(int id)
     {
         return Ok(await _service.GetHotelAsync(id));
