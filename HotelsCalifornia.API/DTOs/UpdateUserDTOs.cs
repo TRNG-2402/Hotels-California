@@ -1,0 +1,29 @@
+namespace HotelsCalifornia.DTOs;
+
+
+public class UpdateUserDTO
+{
+    
+    public int Id { get; set; }
+    public required string Username { get; set; }
+    public required string PasswordHash { get; set; }
+}
+
+public class UpdateMemberDTO : UpdateUserDTO
+{    
+    public required string LicenseNumber { get; set; }
+    public required string Email { get; set; }
+    public int PhoneNumber { get; set; }
+    public int RewardPoints { get; set; } = 0;
+    public bool InBlocklist { get; set; } = false;
+}
+
+public class UpdateManagerDTO : NewUserDTO
+{
+    // nothing requred here
+}
+
+public class UpdateAdminDTO : NewUserDTO
+{
+    // nothing required here
+}

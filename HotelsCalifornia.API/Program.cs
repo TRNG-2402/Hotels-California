@@ -18,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 builder.Services.AddScoped<IHotelService, HotelService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -41,4 +43,6 @@ if (app.Environment.IsDevelopment())
 
 // Our project needs to authorize users
 app.UseAuthorization();
+
+app.MapControllers();  
 app.Run();
