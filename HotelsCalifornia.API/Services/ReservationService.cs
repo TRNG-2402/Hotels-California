@@ -13,7 +13,7 @@ public interface IReservationService
     /// <summary>
     /// Gets reservations by their associated hotel
     /// </summary>
-    Task<IEnumerable<OutReservationDTO>> GetReservationsByHotel(int hotelId);
+    Task<IEnumerable<OutReservationDTO>> GetReservationsByHotelAsync(int hotelId);
     /// <summary>
     /// Gets a specific reservation by its ID
     /// </summary>
@@ -42,7 +42,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         
     }
 
-    public async Task<IEnumerable<OutReservationDTO>> GetReservationsByHotel(int hotelId)
+    public async Task<IEnumerable<OutReservationDTO>> GetReservationsByHotelAsync(int hotelId)
     {
         if (hotelId < 1)
             throw new ArgumentOutOfRangeException("Hotel ID must be a positive number");
