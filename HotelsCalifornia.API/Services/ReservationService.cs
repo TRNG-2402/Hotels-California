@@ -9,49 +9,58 @@ public interface IReservationService
     /// <summary>
     /// Gets all reservations in the database
     /// </summary>
-    Task<IEnumerable<Reservation>> GetReservationsAsync();
+    Task<IEnumerable<OutReservationDTO>> GetReservationsAsync();
     /// <summary>
     /// Gets reservations by their associated hotel
     /// </summary>
-    Task<IEnumerable<Reservation>> GetReservationsByHotel(int hotelId);
+    Task<IEnumerable<OutReservationDTO>> GetReservationsByHotel(int hotelId);
     /// <summary>
     /// Gets a specific reservation by its ID
     /// </summary>
-    Task<Reservation> GetReservationAsync(int reservationId);
+    Task<OutReservationDTO> GetReservationAsync(int reservationId);
     /// <summary>
     /// Books a new reservation
     /// </summary>
-    Task<Reservation> CreateReservationAsync(NewReservationDTO newRes);
+    Task<OutReservationDTO> CreateReservationAsync(NewReservationDTO newRes);
     /// <summary>
     /// Updates an existing reservation
     /// </summary>
-    Task<Reservation> UpdateReservationAsync(UpdateReservationDTO updateRes);
+    Task<OutReservationDTO> UpdateReservationAsync(UpdateReservationDTO updateRes);
 }
 
 public class ReservationService(IReservationRepository repo) : IReservationService
 {
     private readonly IReservationRepository _repo = repo;
 
-    public async Task<IEnumerable<Reservation>> GetReservationsAsync()
+    public async Task<IEnumerable<OutReservationDTO>> GetReservationsAsync()
     {
-        return await _repo.GetReservationsAsync();
+        var reservations = await _repo.GetReservationsAsync();
+        List<OutReservationDTO> output = [];
+        foreach (var r in reservations)
+            _ = output.Append(toDTO(r));
+        return output;
+        
     }
 
-    public async Task<IEnumerable<Reservation>> GetReservationsByHotel(int hotelId)
+    public async Task<IEnumerable<OutReservationDTO>> GetReservationsByHotel(int hotelId)
     {
         if (hotelId < 1)
             throw new ArgumentOutOfRangeException("Hotel ID must be a positive number");
-        return await _repo.GetReservationsByHotelAsync(hotelId);
+        var reservations = await _repo.GetReservationsByHotelAsync(hotelId);
+        List<OutReservationDTO> output = [];
+        foreach (var r in reservations)
+            _ = output.Append(toDTO(r));
+        return output;
     }
 
-    public async Task<Reservation> GetReservationAsync(int reservationId)
+    public async Task<OutReservationDTO> GetReservationAsync(int reservationId)
     {
         if (reservationId < 1)
             throw new ArgumentOutOfRangeException("Reservation ID must be a positive number");
-        return await _repo.GetReservationAsync(reservationId);
+        return toDTO(await _repo.GetReservationAsync(reservationId));
     }
 
-    public async Task<Reservation> CreateReservationAsync(NewReservationDTO newRes)
+    public async Task<OutReservationDTO> CreateReservationAsync(NewReservationDTO newRes)
     {
         if (newRes.MemberId < 0)
             throw new ArgumentOutOfRangeException("Member ID must be non-negative");
@@ -65,10 +74,10 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         if (newRes.DriversLicense.Length < 7 ||
             newRes.DriversLicense.Length > 31) // what is washington's DEAL
             throw new ArgumentException("Invalid drivers license");
-        return await _repo.CreateReservationAsync(newRes);
+        return toDTO(await _repo.CreateReservationAsync(newRes));
     }
 
-    public async Task<Reservation> UpdateReservationAsync(UpdateReservationDTO updateRes)
+    public async Task<OutReservationDTO> UpdateReservationAsync(UpdateReservationDTO updateRes)
     {
         if (updateRes.ReservationId < 1)
             throw new ArgumentOutOfRangeException("Reservation ID must be a positive number");
@@ -88,12 +97,29 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             updateRes.DriversLicense?.Length < 7 ||
             updateRes.DriversLicense?.Length > 31)
             throw new ArgumentException("Invalid drivers license");
-        return await _repo.UpdateReservationAsync(updateRes);
+        return toDTO(await _repo.UpdateReservationAsync(updateRes));
     }
 
     private bool isValidEmail(string email)
     {
         string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         return Regex.IsMatch(email, pattern);
+    }
+
+    private OutReservationDTO toDTO(Reservation r)
+    {
+        return new()
+        {
+            ReservationId = r.ReservationId,
+            MemberId = r.MemberId,
+            RoomId = r.RoomId,
+            HotelId = r.HotelId,
+            CheckInTime = r.CheckInTime,
+            CheckOutTime = r.CheckOutTime,
+            DriversLicense = r.DriversLicense,
+            Email = r.Email,
+            PhoneNumber = r.PhoneNumber,
+            IsCanceled = r.IsCanceled
+        };
     }
 }
