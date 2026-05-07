@@ -11,6 +11,10 @@ public interface IRoomRepository
     /// </summary>
     Task<IEnumerable<Room>> GetRoomsAsync();
     /// <summary>
+    /// Returns a list of all rooms attributed to a given hotel
+    /// </summary>
+    Task<IEnumerable<Room>> GetRoomsByHotelAsync(int hotelId);
+    /// <summary>
     /// Returns a room associated with a given hotel
     /// </summary>
     Task<Room> GetRoomByIdAsync(int roomId);
@@ -37,10 +41,19 @@ public class RoomRepository(AppDbContext context) : IRoomRepository
         return await _context.Rooms.ToListAsync();
     }
 
+    public async Task<IEnumerable<Room>> GetRoomsByHotelAsync(int hotelId)
+    {
+        Hotel hotel = await _context.Hotels.
+            Include(h => h.Rooms)
+            .FirstOrDefaultAsync(h => h.Id == hotelId)
+            ?? throw new KeyNotFoundException($"No hotel with ID {hotelId} in database");
+        return hotel.Rooms;
+    }
+
     public async Task<Room> GetRoomByIdAsync(int roomId)
     {
         return await _context.Rooms.FindAsync(roomId) ?? throw new KeyNotFoundException(
-            $"No room with id {roomId} in database"
+            $"No room with ID {roomId} in database"
         );
     }
 
