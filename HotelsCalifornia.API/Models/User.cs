@@ -58,6 +58,12 @@ public class Member : User
 
 }
 
+public class Manager : User
+{
+    [ForeignKey("Hotel")]
+    public int HotelId {get;set;}
+}
+
 public class Admin : User
 {
 
