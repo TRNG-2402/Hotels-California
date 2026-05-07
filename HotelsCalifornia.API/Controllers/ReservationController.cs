@@ -31,8 +31,8 @@ public class ReservationController(IReservationService service) : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateReservation([FromBody] NewReservationDTO newRes)
     {
-        await _service.CreateReservationAsync(newRes);
-        return NoContent();
+        OutReservationDTO reservation = await _service.CreateReservationAsync(newRes);
+        return Created(nameof(CreateReservation), reservation);
     }
 
     [HttpPatch]

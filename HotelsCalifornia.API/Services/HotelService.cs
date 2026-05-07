@@ -8,42 +8,46 @@ public interface IHotelService
     /// <summary>
     /// Returns all the hotels in the database
     /// </summary>
-    Task<IEnumerable<Hotel>> GetHotelsAsync();
+    Task<IEnumerable<OutHotelDTO>> GetHotelsAsync();
     /// <summary>
     /// Retrieves the hotel with the given ID
     /// </summary>
-    Task<Hotel> GetHotelAsync(int hotelId);
+    Task<OutHotelDTO> GetHotelAsync(int hotelId);
     /// <summary>
     /// Creates a new hotel given a DTO
     /// </summary>
-    Task<Hotel> CreateHotelAsync(NewHotelDTO newHotel);
+    Task<OutHotelDTO> CreateHotelAsync(NewHotelDTO newHotel);
     /// <summary>
     /// Updates the information for a hotel by its given ID
     /// </summary>
-    Task<Hotel> UpdateHotelAsync(UpdateHotelDTO updateHotel);
+    Task<OutHotelDTO> UpdateHotelAsync(UpdateHotelDTO updateHotel);
     /// <summary>
     /// Deletes a hotel from the database
     /// </summary>
-    Task<Hotel> DeleteHotelAsync(int hotelId);
+    Task<OutHotelDTO> DeleteHotelAsync(int hotelId);
 }
 
 public class HotelService(IHotelRepository repo) : IHotelService
 {
     private readonly IHotelRepository _repo = repo;
 
-    public async Task<IEnumerable<Hotel>> GetHotelsAsync()
+    public async Task<IEnumerable<OutHotelDTO>> GetHotelsAsync()
     {
-        return await _repo.GetHotelsAsync();
+        var hotels = await _repo.GetHotelsAsync();
+        List<OutHotelDTO> output = [];
+        foreach (var h in hotels)
+            _ = output.Append(toDTO(h));
+        return output;
     }
 
-    public async Task<Hotel> GetHotelAsync(int hotelId)
+    public async Task<OutHotelDTO> GetHotelAsync(int hotelId)
     {
         if (hotelId < 1)
             throw new ArgumentOutOfRangeException("Hotel ID must be a positive number");
-        return await _repo.GetHotelByIdAsync(hotelId);
+        return toDTO(await _repo.GetHotelByIdAsync(hotelId));
     }
 
-    public async Task<Hotel> CreateHotelAsync(NewHotelDTO newHotel)
+    public async Task<OutHotelDTO> CreateHotelAsync(NewHotelDTO newHotel)
     {
         if (newHotel.Name.Length < 1)
             throw new ArgumentException("Hotel name cannot be empty");
@@ -53,10 +57,10 @@ public class HotelService(IHotelRepository repo) : IHotelService
             throw new ArgumentException("Hotel address cannot be empty");
         if (newHotel.Description?.Length > 500)
             throw new ArgumentException("Hotel description cannot exceed 500 characters");
-        return await _repo.CreateHotelAsync(newHotel);
+        return toDTO(await _repo.CreateHotelAsync(newHotel));
     }
 
-    public async Task<Hotel> UpdateHotelAsync(UpdateHotelDTO updateHotel)
+    public async Task<OutHotelDTO> UpdateHotelAsync(UpdateHotelDTO updateHotel)
     {
         if (updateHotel.Id < 1)
             throw new ArgumentOutOfRangeException("Hotel Id must be a positive number");
@@ -68,13 +72,24 @@ public class HotelService(IHotelRepository repo) : IHotelService
             throw new ArgumentException("Hotel name must be less than 32 characters");
         if (updateHotel.Description?.Length > 500)
             throw new ArgumentException("Hotel description cannot exceed 500 characters");
-        return await _repo.UpdateHotelAsync(updateHotel);
+        return toDTO(await _repo.UpdateHotelAsync(updateHotel));
     }
 
-    public async Task<Hotel> DeleteHotelAsync(int hotelId)
+    public async Task<OutHotelDTO> DeleteHotelAsync(int hotelId)
     {
         if (hotelId < 1)
             throw new ArgumentOutOfRangeException("Hotel ID must be a positive number");
-        return await _repo.DeleteHotelAsync(hotelId);
+        return toDTO(await _repo.DeleteHotelAsync(hotelId));
+    }
+
+    private OutHotelDTO toDTO(Hotel hotel)
+    {
+        return new()
+        {
+            Id = hotel.Id,
+            Name = hotel.Name,
+            Address = hotel.Address,
+            Description = hotel.Description
+        };
     }
 }

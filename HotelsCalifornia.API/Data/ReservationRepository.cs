@@ -28,7 +28,7 @@ public interface IReservationRepository
     Task<Reservation> UpdateReservationAsync(UpdateReservationDTO updateRes);
 }
 
-public class ReservatioRepository(AppDbContext context) : IReservationRepository
+public class ReservationRepository(AppDbContext context) : IReservationRepository
 {
     private readonly AppDbContext _context = context;
 
