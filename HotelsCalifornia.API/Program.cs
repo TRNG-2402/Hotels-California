@@ -50,10 +50,6 @@ if (app.Environment.IsDevelopment())
 // Our project needs to authorize users
 app.UseAuthorization();
 
-<<<<<<< HEAD
 app.MapControllers();  
-=======
-app.MapControllers();
 
->>>>>>> 91cc7141f0125adffa5b3a583d26b83accbd80b7
 app.Run();
