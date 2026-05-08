@@ -8,7 +8,7 @@ public interface IInvoiceService
     Task<IEnumerable<Invoice>> GetInvoicesAsync();
     Task<Invoice> GetInvoiceAsync(int id);
     Task<Invoice> CreateInvoiceAsync(NewInvoiceDTO newInvoice);
-    Task<Invoice> UpdateinvoiceAsync(UpdateInvoiceDTO invoiceToAdd);
+    Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO invoiceToAdd);
     Task<Invoice> DeleteInvoiceAsync(int id);
 }
 
@@ -56,7 +56,7 @@ public class InvoiceService : IInvoiceService
         return await _repo.CreateInvoiceAsync(invoice);
     }
 
-    public async Task<Invoice> UpdateinvoiceAsync(UpdateInvoiceDTO updateInvoice)
+    public async Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO updateInvoice)
     {
         if (updateInvoice.Id < 1)
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");

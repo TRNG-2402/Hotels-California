@@ -37,7 +37,7 @@ public class InvoiceController : ControllerBase
     [HttpPatch]
     public async Task<ActionResult> UpdateInvoiceAsync([FromBody] UpdateInvoiceDTO updateInvoice)
     {
-        await _service.UpdateinvoiceAsync(updateInvoice);
+        await _service.UpdateInvoiceAsync(updateInvoice);
         return NoContent();
     }
 
