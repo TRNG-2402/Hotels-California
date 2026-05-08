@@ -15,8 +15,10 @@ public class Invoice
 {
     [Key]
     public int Id { get; set; }
+
     [ForeignKey("Member")]
     public int? MemberId { get; set; }
+    
     [ForeignKey("Reservation")]
     public List<int> ReservationId { get; set; } = new();
 

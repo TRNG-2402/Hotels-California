@@ -3,25 +3,25 @@ using HotelsCalifornia.Models;
 using Microsoft.EntityFrameworkCore;
 using HotelsCalifornia.DTOs;
 
-public interface IInvoiceRepo
+public interface IInvoiceRepository
 {
-    Task<List<Invoice>> GetInvoiceAsync();
+    Task<IEnumerable<Invoice>> GetInvoicesAsync();
     Task<Invoice> GetInvoiceByIdAsync(int id);
     Task<Invoice> CreateInvoiceAsync(Invoice newInvoice);
-    Task<Invoice> UpdateInvoiceAsync(Invoice invoiceToUpdate);
+    Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO invoiceToUpdate);
     Task<Invoice> DeleteInvoiceAsync(int id);
 }
 
-public class InvoiceRepo(AppDbContext context) : IInvoiceRepo
+public class InvoiceRepository : IInvoiceRepository
 {
     private readonly AppDbContext _context;
 
-    public InvoiceRepo(AppDbContext context)
+    public InvoiceRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public async Task<List<Invoice>> GetInvoiceAsync()
+    public async Task<IEnumerable<Invoice>> GetInvoicesAsync()
     {
         return await _context.Invoices.ToListAsync();
     }
@@ -31,21 +31,23 @@ public class InvoiceRepo(AppDbContext context) : IInvoiceRepo
         return await _context.Invoices.FindAsync(id);
     }
 
-    public async Task<Invoice> CreateInvoiceAsync(Invoice newInvoice);
+    public async Task<Invoice> CreateInvoiceAsync(Invoice newInvoice)
     {
         _context.Invoices.Add(newInvoice);
         await _context.SaveChangesAsync();
         return newInvoice;
     }
 
-    public async Task<Invoice> UpdateInvoiceAsync(Invoice invoiceToUpdate);
+    public async Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO updateInvoice)
     {
-        Hotel invoiceToUpdate = await _context.Invoices.FindAsync(invoiceToUpdate.Id);
+        Invoice invoiceToUpdate = await _context.Invoices.FindAsync(updateInvoice.Id);
+        invoiceToUpdate.IsPaid = updateInvoice.IsPaid;
+
         await _context.SaveChangesAsync();
         return invoiceToUpdate;
     }
 
-    public async Task<Invoice> DeleteInvoiceAsync(int id);
+    public async Task<Invoice> DeleteInvoiceAsync(int id)
     {
         Invoice? invoiceToDelete = await _context.Invoices.FindAsync(id);
 
