@@ -68,9 +68,8 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");
         if (!isValidEmail(newRes.Email))
             throw new ArgumentException($"{newRes.Email} is not a valid email");
-        if (newRes.PhoneNumber < 1000000000 ||
-            newRes.PhoneNumber > 9999999999)
-            throw new ArgumentOutOfRangeException("Phone number must be 9 digits");
+        if (!isValidPhoneNumber(newRes.PhoneNumber))
+            throw new ArgumentOutOfRangeException("Invalid phone number");
         if (newRes.DriversLicense.Length < 7 ||
             newRes.DriversLicense.Length > 31) // what is washington's DEAL
             throw new ArgumentException("Invalid drivers license");
@@ -83,16 +82,15 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             throw new ArgumentOutOfRangeException("Reservation ID must be a positive number");
         if (updateRes.Email is null &&
             updateRes.DriversLicense is null &&
-            updateRes.PhoneNumber == 0 &&
+            updateRes.PhoneNumber is null &&
             updateRes.CheckOutTime is null)
             throw new ArgumentException("No information has been changed");
         if (updateRes.Email != null &&
             !isValidEmail(updateRes.Email))
             throw new ArgumentException($"{updateRes.Email} is not a valid email");
-        if (updateRes.PhoneNumber != 0 &&
-            updateRes.PhoneNumber < 1000000000 ||
-            updateRes.PhoneNumber > 9999999999)
-            throw new ArgumentOutOfRangeException("Phone number must be 9 digits");
+        if (updateRes.PhoneNumber != null &&
+            !isValidPhoneNumber(updateRes.PhoneNumber))
+            throw new ArgumentOutOfRangeException("Invalid phone number");
         if (updateRes.DriversLicense != null &&
             updateRes.DriversLicense?.Length < 7 ||
             updateRes.DriversLicense?.Length > 31)
@@ -104,6 +102,12 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
     {
         string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         return Regex.IsMatch(email, pattern);
+    }
+
+    private bool isValidPhoneNumber(string phoneNumber)
+    {
+        string pattern = @"^(?:\(?)(\d{3})(?:[\).\s]?)(\d{3})(?:[-\.\s]?)(\d{4})(?!\d)";
+        return Regex.IsMatch(phoneNumber, pattern);
     }
 
     private OutReservationDTO toDTO(Reservation r)

@@ -10,6 +10,6 @@ public class OutReservationDTO
     public DateTime? CheckOutTime { get; set; }
     public required string DriversLicense { get; set; }
     public required string Email { get; set; }
-    public long PhoneNumber { get; set; }
+    public required string PhoneNumber { get; set; }
     public bool IsCanceled { get; set; }
 }
