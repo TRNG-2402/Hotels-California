@@ -69,6 +69,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("MemberOnly", policy =>
+        policy.RequireRole("Member"));
     options.AddPolicy("ManagerOnly", policy =>
         policy.RequireRole("Manager"));
     options.AddPolicy("AdminOnly", policy =>
