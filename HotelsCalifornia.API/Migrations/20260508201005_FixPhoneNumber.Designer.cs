@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelsCalifornia.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260507222154_ChangedPhoneNumberDataType")]
-    partial class ChangedPhoneNumberDataType
+    [Migration("20260508201005_FixPhoneNumber")]
+    partial class FixPhoneNumber
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,7 +108,7 @@ namespace HotelsCalifornia.API.Migrations
                     b.Property<DateTime>("CheckInTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CheckOutTime")
+                    b.Property<DateTime>("CheckOutTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DriversLicense")
@@ -128,8 +128,9 @@ namespace HotelsCalifornia.API.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.Property<long>("PhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
@@ -217,10 +218,7 @@ namespace HotelsCalifornia.API.Migrations
                 {
                     b.HasBaseType("HotelsCalifornia.Models.User");
 
-                    b.Property<int?>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MemberId")
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Manager");
@@ -242,8 +240,9 @@ namespace HotelsCalifornia.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RewardPoints")
                         .HasColumnType("int");

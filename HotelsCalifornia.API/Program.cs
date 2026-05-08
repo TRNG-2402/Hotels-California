@@ -50,6 +50,8 @@ if (app.Environment.IsDevelopment())
 // Our project needs to authorize users
 app.UseAuthorization();
 
+app.UseAuthentication();
+
 app.MapControllers();  
 
 app.Run();
