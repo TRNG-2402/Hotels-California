@@ -66,9 +66,9 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             throw new ArgumentOutOfRangeException("Member ID must be non-negative");
         if (newRes.RoomId < 1)
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");
-        if (!isValidEmail(newRes.Email))
+        if (!IsValidEmail(newRes.Email))
             throw new ArgumentException($"{newRes.Email} is not a valid email");
-        if (!isValidPhoneNumber(newRes.PhoneNumber))
+        if (!IsValidPhoneNumber(newRes.PhoneNumber))
             throw new ArgumentOutOfRangeException("Invalid phone number");
         if (newRes.DriversLicense.Length < 7 ||
             newRes.DriversLicense.Length > 31) // what is washington's DEAL
@@ -86,10 +86,10 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             updateRes.CheckOutTime is null)
             throw new ArgumentException("No information has been changed");
         if (updateRes.Email != null &&
-            !isValidEmail(updateRes.Email))
+            !IsValidEmail(updateRes.Email))
             throw new ArgumentException($"{updateRes.Email} is not a valid email");
         if (updateRes.PhoneNumber != null &&
-            !isValidPhoneNumber(updateRes.PhoneNumber))
+            !IsValidPhoneNumber(updateRes.PhoneNumber))
             throw new ArgumentOutOfRangeException("Invalid phone number");
         if (updateRes.DriversLicense != null &&
             updateRes.DriversLicense?.Length < 7 ||
@@ -98,15 +98,15 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         return toDTO(await _repo.UpdateReservationAsync(updateRes));
     }
 
-    private bool isValidEmail(string email)
+    private bool IsValidEmail(string email)
     {
         string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
         return Regex.IsMatch(email, pattern);
     }
 
-    private bool isValidPhoneNumber(string phoneNumber)
+    private bool IsValidPhoneNumber(string phoneNumber)
     {
-        string pattern = @"^(?:\(?)(\d{3})(?:[\).\s]?)(\d{3})(?:[-\.\s]?)(\d{4})(?!\d)";
+        string pattern = @"^[+]{1}(?:[0-9\-\(\)\/\.]\s?){6, 15}[0-9]{1}$";
         return Regex.IsMatch(phoneNumber, pattern);
     }
 
