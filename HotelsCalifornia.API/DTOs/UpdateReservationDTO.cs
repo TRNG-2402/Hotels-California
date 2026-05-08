@@ -6,6 +6,6 @@ public class UpdateReservationDTO
     public DateTime? CheckOutTime { get; set; }
     public string? DriversLicense { get; set; }
     public string? Email { get; set; }
-    public long PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     public bool IsCanceled { get; set; }
 }

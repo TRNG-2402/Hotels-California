@@ -22,7 +22,8 @@ public class Reservation
     [Required]
     public required DateTime CheckInTime { get; set; }
 
-    public DateTime? CheckOutTime { get; set; }
+    [Required]
+    public required DateTime CheckOutTime { get; set; }
 
     [Required]
     public required string DriversLicense { get; set; }
@@ -31,7 +32,7 @@ public class Reservation
     public required string Email { get; set; }
 
     [Required]
-    public long PhoneNumber { get; set; }
+    public required string PhoneNumber { get; set; }
 
     public bool IsCanceled { get; set; } = false;
 
