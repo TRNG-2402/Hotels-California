@@ -2,5 +2,6 @@ namespace HotelsCalifornia.DTOs;
 
 public class UpdateInvoiceDTO
 {
-    public bool isPaid { get; set; }
+    public int Id { get; set; }
+    public bool IsPaid { get; set; }
 }
