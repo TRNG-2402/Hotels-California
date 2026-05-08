@@ -39,7 +39,7 @@ builder.Services.AddScoped<IInvoiceLineItemService, IInvoiceLineItemService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("HotelsCaliforniaUI", policy =>
-        policy.WithOrigins("http://localhost:") // TODO: ADD PORT NUMBER
+        policy.WithOrigins("http://localhost:5175")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });

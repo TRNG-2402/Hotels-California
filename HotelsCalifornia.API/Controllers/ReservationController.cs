@@ -1,8 +1,8 @@
 namespace HotelsCalifornia.Controllers;
 using HotelsCalifornia.Services;
-using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -36,6 +36,7 @@ public class ReservationController(IReservationService service) : ControllerBase
     }
 
     [HttpPatch]
+    [AllowAnonymous]
     public async Task<ActionResult> UpdateReservation([FromBody] UpdateReservationDTO updateRes)
     {
         await _service.UpdateReservationAsync(updateRes);
