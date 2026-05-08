@@ -78,9 +78,10 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
     public async Task<User> GetUserByIdAsync(int userId)
     {
-        return await _context.Users.FindAsync(userId) ?? throw new KeyNotFoundException(
-            $"No user with id {userId} in database"
-        );
+        User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId)
+            ?? throw new UnauthorizedAccessException("Invalid username or password");
+
+        return user;
     }
 
     public async Task<User> CreateUserAsync(NewUserDTO dto)
