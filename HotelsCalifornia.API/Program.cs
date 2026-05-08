@@ -36,10 +36,12 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IInvoiceLineItemRepository, InvoiceLineItemRepository>();
 builder.Services.AddScoped<IInvoiceLineItemService, IInvoiceLineItemService>();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("HotelsCaliforniaUI", policy =>
-        policy.WithOrigins("http://localhost:5175")
+        policy.WithOrigins("http://localhost:") // TODO: APPEND PORT FOR UI
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -117,6 +119,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Our project needs to authorize users
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
