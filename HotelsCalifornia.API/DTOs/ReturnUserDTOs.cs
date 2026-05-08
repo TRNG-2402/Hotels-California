@@ -44,7 +44,7 @@ public class ReturnUserDTO
     public int? HotelId { get; set; }
     public string? LicenseNumber { get; set; }
     public string? Email { get; set; }
-    public int? PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     public int? RewardPoints { get; set; }
     public bool? InBlocklist { get; set; }
 
@@ -54,7 +54,7 @@ public class ReturnMemberDTO : ReturnUserDTO
 {
     public required string LicenseNumber { get; set; }
     public required string Email { get; set; }
-    public int PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
     public int RewardPoints { get; set; }
     public bool InBlocklist { get; set; }
 

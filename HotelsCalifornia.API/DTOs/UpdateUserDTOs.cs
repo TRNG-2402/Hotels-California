@@ -5,15 +5,15 @@ public class UpdateUserDTO
 {
     
     public int Id { get; set; }
-    public required string Username { get; set; }
-    public required string PasswordHash { get; set; }
+    public string Username { get; set; }
+    public string PasswordHash { get; set; }
 }
 
 public class UpdateMemberDTO : UpdateUserDTO
 {    
-    public required string LicenseNumber { get; set; }
-    public required string Email { get; set; }
-    public int PhoneNumber { get; set; }
+    public string LicenseNumber { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; } = "1234567890";
     public int RewardPoints { get; set; } = 0;
     public bool InBlocklist { get; set; } = false;
 }

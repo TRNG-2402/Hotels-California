@@ -58,7 +58,7 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
                 throw new ArgumentException("Email must not be empty");
             if (newMember.Email.Length > 50) 
                 throw new ArgumentException("Email must not exceed 50 characters");
-            if (newMember.PhoneNumber.ToString().Length != 10)
+            if (newMember.PhoneNumber.Length != 10)
                 throw new ArgumentException("PhoneNumber should be exactly 10 digits");
         }
 
@@ -80,7 +80,7 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
                 throw new ArgumentException("Licence number must be bewteen 9 and 14 characters");
             if (member.Email.Length > 50) 
                 throw new ArgumentException("Email must not exceed 50 characters");
-            if (member.PhoneNumber.ToString().Length != 10 && member.PhoneNumber.ToString().Length > 0)
+            if (member.PhoneNumber.Length != 10 && member.PhoneNumber.Length > 0)
                 throw new ArgumentException("PhoneNumber should be exactly 10 digits");
         }
         return await _repo.UpdateUserAsync(updateUser);

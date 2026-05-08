@@ -51,7 +51,7 @@ public class Member : User
     [MaxLength(50)]
     public required string Email { get; set; }
     [Required]
-    public long PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
     public int RewardPoints { get; set; } = 0;
     public bool InBlocklist { get; set; } = false;
     public List<Reservation> Reservations { get; set; } = new List<Reservation>();
