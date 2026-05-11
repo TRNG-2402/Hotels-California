@@ -36,7 +36,7 @@ public class HotelService(IHotelRepository repo) : IHotelService
         var hotels = await _repo.GetHotelsAsync();
         List<OutHotelDTO> output = [];
         foreach (var h in hotels)
-            _ = output.Append(toDTO(h));
+            output.Add(toDTO(h));
         return output;
     }
 
@@ -68,8 +68,12 @@ public class HotelService(IHotelRepository repo) : IHotelService
             updateHotel.Address is null &&
             updateHotel.Description is null)
             throw new ArgumentException("No information inserted to update hotel");
+        if (updateHotel.Name is not null && updateHotel.Name.Length < 1)
+            throw new ArgumentException("Hotel name cannot be empty");
         if (updateHotel.Name?.Length > 32)
             throw new ArgumentException("Hotel name must be less than 32 characters");
+        if (updateHotel.Address is not null && updateHotel.Address.Length < 1)
+            throw new ArgumentException("Address cannot be empty");
         if (updateHotel.Description?.Length > 500)
             throw new ArgumentException("Hotel description cannot exceed 500 characters");
         return toDTO(await _repo.UpdateHotelAsync(updateHotel));
