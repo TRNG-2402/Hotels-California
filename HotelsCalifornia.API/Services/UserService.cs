@@ -7,7 +7,7 @@ using HotelsCalifornia.Models;
 public interface IUserService
 {
     Task<IEnumerable<ReturnUserDTO>> GetUsersAsync();
-    Task<User> GetUserAsync(int userId);
+    Task<ReturnUserDTO> GetUserAsync(int userId);
     Task<User> CreateUserAsync(NewUserDTO newUser);
     Task<User> UpdateUserAsync(UpdateUserDTO updateUser);
     Task<Member> IncrementMemberRewards(int id, int points);
@@ -24,11 +24,45 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         return await _repo.GetUsersAsync();
     }
 
-    public async Task<User> GetUserAsync(int userId)
+    public async Task<ReturnUserDTO> GetUserAsync(int userId)
     {
         if (userId < 1)
             throw new ArgumentOutOfRangeException("User ID must be a positive number");
-        return await _repo.GetUserByIdAsync(userId);
+        User user = await _repo.GetUserByIdAsync(userId);
+
+        var returnUser = user switch
+        {
+            Admin a => new ReturnUserDTO
+            {
+                Id = a.Id,
+                userType = UserType.Admin,
+                Username = a.Username,
+                PasswordHash = a.PasswordHash
+            },
+            Manager m => new ReturnUserDTO
+            {
+                Id = m.Id,
+                userType = UserType.Manager,
+                Username = m.Username,
+                PasswordHash = m.PasswordHash,
+                HotelId = m.HotelId
+            },
+            Member mem => new ReturnUserDTO
+            {
+                Id = mem.Id,
+                userType = UserType.Member,
+                Username = mem.Username,
+                PasswordHash = mem.PasswordHash,
+                LicenseNumber = mem.LicenseNumber,
+                Email = mem.Email,
+                PhoneNumber = mem.PhoneNumber,
+                RewardPoints = mem.RewardPoints,
+                InBlocklist = mem.InBlocklist
+            },
+            _ => throw new Exception("Unknown user type")
+        };
+
+        return returnUser;
     }
 
     public async Task<User> CreateUserAsync(NewUserDTO newUser)

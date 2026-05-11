@@ -11,7 +11,7 @@ public class NewMemberDTO : NewUserDTO
 {    
     public required string LicenseNumber { get; set; }
     public required string Email { get; set; }
-    public string PhoneNumber { get; set; }
+    public required string PhoneNumber { get; set; }
 }
 
 public class NewManagerDTO : NewUserDTO

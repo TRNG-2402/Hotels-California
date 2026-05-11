@@ -18,7 +18,7 @@ public class UserController(IUserService service) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetUserByIdAsync(int id)
+    public async Task<ActionResult<ReturnUserDTO>> GetUserByIdAsync(int id)
     {
         return Ok(await _service.GetUserAsync(id));
     }

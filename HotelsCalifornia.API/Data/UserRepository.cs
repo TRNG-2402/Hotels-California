@@ -17,6 +17,10 @@ public interface IUserRepository
     /// </summary>
     Task<User> GetUserByIdAsync(int userId);
     /// <summary>
+    /// Returns a user associated with a given username
+    /// </summary>
+    Task<BuildTokenDTO> GetUserByUsernameAsync(string email);
+    /// <summary>
     /// Creates a new room object
     /// </summary>
     Task<User> CreateUserAsync(NewUserDTO newUser);
@@ -78,9 +82,30 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
     public async Task<User> GetUserByIdAsync(int userId)
     {
-        return await _context.Users.FindAsync(userId) ?? throw new KeyNotFoundException(
-            $"No user with id {userId} in database"
-        );
+        User user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId)
+            ?? throw new UnauthorizedAccessException("Invalid username or password");
+
+        return user;
+    }
+
+    public async Task<BuildTokenDTO> GetUserByUsernameAsync(string username)
+    {
+        User user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username)
+            ?? throw new UnauthorizedAccessException("Invalid username or password");
+
+        return new BuildTokenDTO
+        {
+            NameIdentifier = user.Id.ToString(),
+            Name = user.Username,
+            PasswordHash = user.PasswordHash,
+            Role = user switch
+            {
+                Admin a => "Admin",
+                Manager m => "Manager",
+                User u => "User",
+                _ => "Unknown"
+            }
+        };
     }
 
     public async Task<User> CreateUserAsync(NewUserDTO dto)

@@ -28,7 +28,8 @@ public class InvoiceRepository : IInvoiceRepository
 
     public async Task<Invoice> GetInvoiceByIdAsync(int id)
     {
-        return await _context.Invoices.FindAsync(id);
+        return await _context.Invoices.FindAsync(id)
+            ?? throw new KeyNotFoundException($"No invoice with ID ${id}");
     }
 
     public async Task<Invoice> CreateInvoiceAsync(Invoice newInvoice)
@@ -40,7 +41,7 @@ public class InvoiceRepository : IInvoiceRepository
 
     public async Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO updateInvoice)
     {
-        Invoice invoiceToUpdate = await _context.Invoices.FindAsync(updateInvoice.Id);
+        Invoice invoiceToUpdate = await GetInvoiceByIdAsync(updateInvoice.Id);
         invoiceToUpdate.IsPaid = updateInvoice.IsPaid;
 
         await _context.SaveChangesAsync();
@@ -49,14 +50,10 @@ public class InvoiceRepository : IInvoiceRepository
 
     public async Task<Invoice> DeleteInvoiceAsync(int id)
     {
-        Invoice? invoiceToDelete = await _context.Invoices.FindAsync(id);
-
-        if (invoiceToDelete is not null) 
-        {
-            _context.Invoices.Remove(invoiceToDelete);
-            await _context.SaveChangesAsync();
-        }
-
+        Invoice invoiceToDelete = await GetInvoiceByIdAsync(id);
+        _context.Invoices.Remove(invoiceToDelete);
+        
+        await _context.SaveChangesAsync();
         return invoiceToDelete;
     }
 }
