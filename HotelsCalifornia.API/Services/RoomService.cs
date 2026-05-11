@@ -73,8 +73,8 @@ public class RoomService(IRoomRepository repo) : IRoomService
     {
         if (updateRoom.Id < 1)
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");
-        if (updateRoom.DailyRate <= 0 ||
-            updateRoom.NumBeds < 1 ||
+        if (updateRoom.DailyRate <= 0 &&
+            updateRoom.NumBeds < 1 &&
             updateRoom.Description is null)
             throw new ArgumentException("No information inserted to update room");
         if (updateRoom.Description?.Length > 500)
