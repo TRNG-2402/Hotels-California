@@ -36,7 +36,7 @@ public class HotelService(IHotelRepository repo) : IHotelService
         var hotels = await _repo.GetHotelsAsync();
         List<OutHotelDTO> output = [];
         foreach (var h in hotels)
-            _ = output.Append(toDTO(h));
+            output.Add(toDTO(h));
         return output;
     }
 
