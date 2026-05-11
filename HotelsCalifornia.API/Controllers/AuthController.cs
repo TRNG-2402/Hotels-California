@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Controllers;
+
 using HotelsCalifornia.Services;
 using HotelsCalifornia.DTOs;
 using Microsoft.AspNetCore.Mvc;
