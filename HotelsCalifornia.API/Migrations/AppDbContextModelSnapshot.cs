@@ -105,7 +105,7 @@ namespace HotelsCalifornia.API.Migrations
                     b.Property<DateTime>("CheckInTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("CheckOutTime")
+                    b.Property<DateTime>("CheckOutTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DriversLicense")
@@ -125,8 +125,9 @@ namespace HotelsCalifornia.API.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
-                    b.Property<long>("PhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
@@ -214,10 +215,7 @@ namespace HotelsCalifornia.API.Migrations
                 {
                     b.HasBaseType("HotelsCalifornia.Models.User");
 
-                    b.Property<int?>("HotelId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MemberId")
+                    b.Property<int>("HotelId")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Manager");
@@ -239,8 +237,9 @@ namespace HotelsCalifornia.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RewardPoints")
                         .HasColumnType("int");
