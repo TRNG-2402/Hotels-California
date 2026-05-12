@@ -19,7 +19,7 @@ public class RoomController(IRoomService service) : ControllerBase
         return Ok(await _service.GetRoomsAsync());
     }
 
-    [HttpGet("/hotel/{hotelId}")]
+    [HttpGet("room/hotel/{hotelId}")]
     [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<Room>>> GetRoomsByHotel(int hotelId)
     {

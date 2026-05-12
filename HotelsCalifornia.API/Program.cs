@@ -34,7 +34,7 @@ builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
 builder.Services.AddScoped<IInvoiceLineItemRepository, InvoiceLineItemRepository>();
-builder.Services.AddScoped<IInvoiceLineItemService, IInvoiceLineItemService>();
+builder.Services.AddScoped<IInvoiceLineItemService, InvoiceLineItemService>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
