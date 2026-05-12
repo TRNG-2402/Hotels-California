@@ -10,6 +10,7 @@ import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
 import AdminViewHotels from './pages/AdminViewHotels'
 import NotFound from './pages/NotFound'
+import NavBar from './components/NavBar'
 
 function App()
 {
@@ -19,7 +20,7 @@ function App()
     <main>
       <h1>Hotels California</h1>
       <p>Find a home away from home</p>
-
+      <NavBar />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/Login' element={<Login />} />
