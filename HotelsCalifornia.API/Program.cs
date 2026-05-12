@@ -125,6 +125,6 @@ app.UseAuthorization();
 
 app.UseAuthentication();
 
-app.MapControllers();  
+app.MapControllers();
 
 app.Run();
