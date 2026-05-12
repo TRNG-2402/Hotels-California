@@ -1,0 +1,68 @@
+name: Backend CI
+
+on:
+    push:
+        branches: [master]
+        paths:
+          - 'HotelsCalifornia.API/**'
+          - '.github/workflows/backend-ci.yaml'
+    pull_request:
+        branches: [master]
+        paths:
+          - 'HotelsCalifornia.API/**'
+          - '.github/workflows/backend-ci.yaml'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+
+jobs:
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Set up .NET
+            uses: actions/setup-dotnet@v4
+            with:
+                dotnet-version: '10.0.x'
+            
+          - name: Restore dependencies
+            run: dotnet restore HotelsCalifornia.API/HotelsCalifornia.API.sln
+
+          - name: Test
+            run: dotnet test HotelsCalifornia.API/HotelsCalifornia.API.sln --no-restore --verbosity normal
+
+    build:
+        name: Production build
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Set up .NET
+            uses: actions/setup-dotnet@v4
+            with:
+                dotnet-version: '10.0.x'
+
+          - name: Restore dependencies
+            run: dotnet restore HotelsCalifornia.API/HotelsCalifornia.API.sln
+
+          - name: Publish
+            run: dotnet publish HotelsCalifornia.API/HotelsCalifornia.API.csproj -c Release --no-restore -o ./publish
+
+    docker:
+        name: Docker Image Build
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Build Docker Image (no push)
+            working-directory: HotelsCalifornia.API
+            run: docker build -t library-api:ci .
