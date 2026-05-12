@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Reservations from './pages/Reservations'
 import MemberInvoice from './pages/MemberInvoice'
-import LogIn from './pages/LogIn'
+import Login from './pages/Login'
 import Rooms from './pages/Rooms'
 import Hotels from './pages/Hotels'
 import ManagerViewHotel from './pages/ManagerViewHotel'
@@ -11,7 +11,8 @@ import AdminViewAccounts from './pages/AdminViewAccounts'
 import AdminViewHotels from './pages/AdminViewHotels'
 import NotFound from './pages/NotFound'
 
-function App() {
+function App()
+{
 
 
   return (
@@ -21,7 +22,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/Login' element={<LogIn />} />
+        <Route path='/Login' element={<Login />} />
         <Route path='/Reservations' element={<Reservations />} />
         <Route path='/MemberInvoice' element={<MemberInvoice />} />
         <Route path='/Rooms' element={<Rooms />} />
