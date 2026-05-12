@@ -13,7 +13,7 @@ public class ReservationServiceTests
     private readonly DateTime CHECK_IN = new DateTime(2000, 1, 1);
     private readonly DateTime CHECK_OUT = new DateTime(2000, 1, 5);
     private const string VALID_LICENSE = "004611610";
-    private const string VALID_PHONE_NUM = "(200) 867 5309";
+    private const string VALID_PHONE_NUM = "+1 200-867-5309";
     private const string VALID_EMAIL = "someone@example.com";
 
     public ReservationServiceTests()
@@ -162,8 +162,8 @@ public class ReservationServiceTests
     [InlineData("someone@example", VALID_PHONE_NUM, VALID_LICENSE)]
     [InlineData("example", VALID_PHONE_NUM, VALID_LICENSE)]
     [InlineData(".com", VALID_PHONE_NUM, VALID_LICENSE)]
-    [InlineData(VALID_EMAIL, "200000000", VALID_LICENSE)]
-    [InlineData(VALID_EMAIL, "20000000000", VALID_LICENSE)]
+    [InlineData(VALID_EMAIL, "1234", VALID_LICENSE)]
+    [InlineData(VALID_EMAIL, "phone number", VALID_LICENSE)]
     [InlineData(VALID_EMAIL, VALID_PHONE_NUM, "123456")]
     [InlineData(VALID_EMAIL, VALID_PHONE_NUM, "12345678901234567890123456789012")]
     public async Task CreateReservationAsync_InvalidIdentification_ThrowsArgumentException(string email,
@@ -296,8 +296,8 @@ public class ReservationServiceTests
     [InlineData(null, "someone@example", null)]
     [InlineData(null, ".com", null)]
     [InlineData(null, "someone", null)]
-    [InlineData(null, null, "123456789")]
-    [InlineData(null, null, "12345678901")]
+    [InlineData(null, null, "1234")]
+    [InlineData(null, null, "phone number")]
     [InlineData(null, null, "(abc) def-ghij")]
     public async Task UpdateReservationAsync_InvalidParams_ThrowsArgumentException(string? driversLicense,
         string? email, string? phoneNumber)

@@ -109,8 +109,8 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
 
     private bool IsValidPhoneNumber(string phoneNumber)
     {
-        string pattern = @"/^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$/";
-        return Regex.IsMatch(phoneNumber, pattern);
+        Regex pattern = new("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$");
+        return pattern.IsMatch(phoneNumber);
     }
 
     private OutReservationDTO toDTO(Reservation r)
