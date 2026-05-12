@@ -18,7 +18,7 @@ public class ReservationController(IReservationService service) : ControllerBase
         return Ok(await _service.GetReservationsAsync());
     }
 
-    [HttpGet("/hotel/{hotelId}")]
+    [HttpGet("reservation/hotel/{hotelId}")]
     [Authorize(Policy = "ManagerOnly")]
     public async Task<ActionResult<IEnumerable<OutReservationDTO>>> GetReservationsByHotel(int hotelId)
     {

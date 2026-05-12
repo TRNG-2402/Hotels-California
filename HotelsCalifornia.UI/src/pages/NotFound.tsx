@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 
-export default function NotFound() {
+export default function NotFound()
+{
   return (
     <section style={styles.container} aria-labelledby="not-found-title">
       <p style={styles.status}>404</p>
