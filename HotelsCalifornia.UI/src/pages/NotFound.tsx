@@ -1,9 +1,10 @@
 
-export default function NotFound() {
+export default function NotFound()
+{
   return (
     <div>
-        <h2>Welcome</h2>
-        <p>Edit this text!</p>
+      <h2>404 - Not Found</h2>
+      <p>That page doesn't exist. Please check if your URL is correct.</p>
     </div>
   )
 }
