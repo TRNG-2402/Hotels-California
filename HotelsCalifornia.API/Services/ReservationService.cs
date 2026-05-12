@@ -37,7 +37,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         var reservations = await _repo.GetReservationsAsync();
         List<OutReservationDTO> output = [];
         foreach (var r in reservations)
-            _ = output.Append(toDTO(r));
+            output.Add(toDTO(r));
         return output;
         
     }
@@ -49,7 +49,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         var reservations = await _repo.GetReservationsByHotelAsync(hotelId);
         List<OutReservationDTO> output = [];
         foreach (var r in reservations)
-            _ = output.Append(toDTO(r));
+            output.Add(toDTO(r));
         return output;
     }
 
@@ -69,10 +69,12 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         if (!IsValidEmail(newRes.Email))
             throw new ArgumentException($"{newRes.Email} is not a valid email");
         if (!IsValidPhoneNumber(newRes.PhoneNumber))
-            throw new ArgumentOutOfRangeException("Invalid phone number");
+            throw new ArgumentException("Invalid phone number");
         if (newRes.DriversLicense.Length < 7 ||
             newRes.DriversLicense.Length > 31) // what is washington's DEAL
             throw new ArgumentException("Invalid drivers license");
+        if (newRes.CheckInTime >= newRes.CheckOutTime)
+            throw new ArgumentException("Check out time must come after check in time");
         return toDTO(await _repo.CreateReservationAsync(newRes));
     }
 
@@ -83,14 +85,15 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         if (updateRes.Email is null &&
             updateRes.DriversLicense is null &&
             updateRes.PhoneNumber is null &&
-            updateRes.CheckOutTime is null)
+            updateRes.CheckOutTime is null &&
+            updateRes.IsCanceled == false)
             throw new ArgumentException("No information has been changed");
         if (updateRes.Email != null &&
             !IsValidEmail(updateRes.Email))
             throw new ArgumentException($"{updateRes.Email} is not a valid email");
         if (updateRes.PhoneNumber != null &&
             !IsValidPhoneNumber(updateRes.PhoneNumber))
-            throw new ArgumentOutOfRangeException("Invalid phone number");
+            throw new ArgumentException("Invalid phone number");
         if (updateRes.DriversLicense != null &&
             updateRes.DriversLicense?.Length < 7 ||
             updateRes.DriversLicense?.Length > 31)
@@ -106,7 +109,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
 
     private bool IsValidPhoneNumber(string phoneNumber)
     {
-        string pattern = @"^[+]{1}(?:[0-9\-\(\)\/\.]\s?){6, 15}[0-9]{1}$";
+        string pattern = @"/^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$/";
         return Regex.IsMatch(phoneNumber, pattern);
     }
 
