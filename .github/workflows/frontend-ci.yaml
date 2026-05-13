@@ -1,0 +1,89 @@
+name: Frontend CI
+
+on:
+    push:
+        branches: [main]
+        paths:
+          - 'HotelsCalifornia.UI/**'
+          - '.github/workflows/frontend-ci.yaml'
+    pull_request:
+        branches: [main]
+        paths:
+          - 'HotelsCalifornia.UI/**'
+          - '.github/workflows/frontend-ci.yaml'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+defaults:
+    run:
+        working-directory: HotelsCalifornia.UI
+
+jobs:
+    lint-test:
+        name: Lint and unit tests
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+        
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: '24'
+                cache: "npm"
+                cache-dependency-path: HotelsCalifornia.UI/package-lock.json
+            
+          - name: Install dependencies
+            run: npm ci
+
+          - name: Test
+            run: npm run test-ci
+
+    build:
+        name: Production build
+        needs: lint-test
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+            with:
+                node-version: '24'
+                cache: "npm"
+                cache-dependency-path: HotelsCalifornia.UI/package-lock.json
+            
+          - name: Install dependencies
+            run: npm ci
+
+          - name: Build
+            run: npm run build
+            env:
+                VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        
+          - name: Upload dist artifact
+            uses: actions/upload-artifact@v4
+            with:
+                name: hotelscalifornia-ui-dist
+                path: HotelsCalifornia.UI/dist
+                retention-days: 7
+
+    docker:
+        name: Docker Image Build
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v6
+
+          - name: Download dist artifact
+            uses: actions/download-artifact@v4
+            with:
+                name: hotelscalifornia-ui-dist
+                path: HotelsCalifornia.UI/dist
+            
+          - name: Build docker image (without push for now)
+            run: docker build --build-arg VITE_API_BASE_URL=${{vars.VITE_API_BASE_URL}} -t hotelscalifornia-ui:ci
