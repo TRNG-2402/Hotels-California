@@ -1,6 +1,6 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import styles from './NavBar.module.css'
+import styles from '../styles/NavBar.module.css'
 import { useAuth } from '../context/AuthContext'
 
 export default function NavBar()
@@ -15,22 +15,27 @@ export default function NavBar()
     }
 
     return (
-        <nav className={styles.css}>
-            <Link to="/" className={styles.link}>Home</Link>
-            <Link to="/Hotels" className={styles.link}></Link>
-            <Link to="/Reservations" className={styles.link}></Link>
-            {
-                isAuthenticated ? (
-                    <>
-                        <span className={styles.greeting}>Hello, {user?.username}</span>
-                        <button className={styles.linkButton} onClick={handleLogout}>
-                            Log out
-                        </button>
-                    </>
-                ) : (<Link to="/login" className={styles.link}>Login</Link>
+        <nav className={styles.navbar}>
+            <ul className={styles.navList}>
+                <li><Link to="/" className={styles.link}>Home</Link></li>
+                <li><Link to="/Hotels" className={styles.link}>Hotels</Link></li>
+                <li><Link to="/Reservations" className={styles.link}>Reservations</Link></li>
+            
+                <li>
+                {
+                    isAuthenticated ? (
+                        <>
+                            <span className={styles.greeting}>Hello, {user?.username}</span>
+                            <button className={styles.linkButton} onClick={handleLogout}>
+                                Log out
+                            </button>
+                        </>
+                    ) : (<Link to="/login" className={styles.link}>Login</Link>
 
-                )
-            }
+                    )
+                }
+                </li>
+            </ul>
 
         </nav>
     )

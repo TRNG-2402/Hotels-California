@@ -1,9 +1,9 @@
-import HotelCard from "../componets/HotelCard"
+import HotelCard from "../components/HotelCard"
 import type { Hotel } from "../types/Hotel"
 import { useState, useEffect } from "react"
-import EmptyState from "../componets/EmptyState"
-import { hotelService } from "../services/HotelService"
-import SearchBar from "../componets/SearchBar"
+import EmptyState from "../components/EmptyState"
+import { hotelService } from "../services/hotelService"
+import SearchBar from "../components/SearchBar"
 
 export default function AdminViewHotels() {
 
