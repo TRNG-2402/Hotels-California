@@ -11,7 +11,7 @@ public interface IUserRepository
     /// <summary>
     /// Returns a list of all rooms in the database
     /// </summary>
-    Task<IEnumerable<ReturnUserDTO>> GetUsersAsync();
+    Task<IEnumerable<User>> GetUsersAsync();
     /// <summary>
     /// Returns a room associated with a given hotel
     /// </summary>
@@ -39,45 +39,9 @@ public class UserRepository(AppDbContext context) : IUserRepository
 {
     private readonly AppDbContext _context = context;
 
-    public async Task<IEnumerable<ReturnUserDTO>> GetUsersAsync()
+    public async Task<IEnumerable<User>> GetUsersAsync()
     {
-
-        var users = await _context.Users.ToListAsync();
-
-        return users
-            .Select(u => u switch
-            {
-                Admin a => new ReturnUserDTO
-                {
-                    Id = a.Id,
-                    userType = UserType.Admin,
-                    Username = a.Username,
-                    PasswordHash = a.PasswordHash
-                },
-                Manager m => new ReturnUserDTO
-                {
-                    Id = m.Id,
-                    userType = UserType.Manager,
-                    Username = m.Username,
-                    PasswordHash = m.PasswordHash,
-                    HotelId = m.HotelId
-                },
-                Member mem => new ReturnUserDTO
-                {
-                    Id = mem.Id,
-                    userType = UserType.Member,
-                    Username = mem.Username,
-                    PasswordHash = mem.PasswordHash,
-                    LicenseNumber = mem.LicenseNumber,
-                    Email = mem.Email,
-                    PhoneNumber = mem.PhoneNumber,
-                    RewardPoints = mem.RewardPoints,
-                    InBlocklist = mem.InBlocklist
-                },
-                _ => throw new Exception("Unknown user type")
-            })
-            .ToList();
-
+        return await _context.Users.ToListAsync();
     }
 
     public async Task<User> GetUserByIdAsync(int userId)

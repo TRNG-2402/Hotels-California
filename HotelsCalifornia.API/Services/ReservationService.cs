@@ -103,8 +103,8 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
 
     private bool IsValidEmail(string email)
     {
-        string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-        return Regex.IsMatch(email, pattern);
+        Regex pattern = new(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+        return pattern.IsMatch(email);
     }
 
     private bool IsValidPhoneNumber(string phoneNumber)

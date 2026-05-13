@@ -18,10 +18,14 @@ public interface IUserService
 public class UserService(IUserRepository repo, IHotelService hotelService) : IUserService
 {
     private readonly IUserRepository _repo = repo;
-    private readonly IHotelService HotelService = hotelService;
+    private readonly IHotelService _hotelService = hotelService;
     public async Task<IEnumerable<ReturnUserDTO>> GetUsersAsync()
     {
-        return await _repo.GetUsersAsync();
+        var users = await _repo.GetUsersAsync();
+        List<ReturnUserDTO> userDTOs = [];
+        foreach (User user in users)
+            userDTOs.Add(toDTO(user));
+        return userDTOs;
     }
 
     public async Task<ReturnUserDTO> GetUserAsync(int userId)
@@ -30,39 +34,7 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
             throw new ArgumentOutOfRangeException("User ID must be a positive number");
         User user = await _repo.GetUserByIdAsync(userId);
 
-        var returnUser = user switch
-        {
-            Admin a => new ReturnUserDTO
-            {
-                Id = a.Id,
-                userType = UserType.Admin,
-                Username = a.Username,
-                PasswordHash = a.PasswordHash
-            },
-            Manager m => new ReturnUserDTO
-            {
-                Id = m.Id,
-                userType = UserType.Manager,
-                Username = m.Username,
-                PasswordHash = m.PasswordHash,
-                HotelId = m.HotelId
-            },
-            Member mem => new ReturnUserDTO
-            {
-                Id = mem.Id,
-                userType = UserType.Member,
-                Username = mem.Username,
-                PasswordHash = mem.PasswordHash,
-                LicenseNumber = mem.LicenseNumber,
-                Email = mem.Email,
-                PhoneNumber = mem.PhoneNumber,
-                RewardPoints = mem.RewardPoints,
-                InBlocklist = mem.InBlocklist
-            },
-            _ => throw new Exception("Unknown user type")
-        };
-
-        return returnUser;
+        return toDTO(user);
     }
 
     public async Task<User> CreateUserAsync(NewUserDTO newUser)
@@ -80,7 +52,7 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         {
             if (newManager.HotelId < 1)
                 throw new ArgumentException("Manager must have a hotel, Id cannot be less than 1");
-            if (await hotelService.GetHotelAsync(newManager.HotelId) is null)
+            if (await _hotelService.GetHotelAsync(newManager.HotelId) is null)
                 throw new ArgumentException("Manager must have a hotel, No hotel exists with the provided hotel Id");
         }
 
@@ -131,5 +103,37 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         if (userId < 1)
             throw new ArgumentOutOfRangeException("User ID must be a positive number");
         return await _repo.DeleteUserAsync(userId);
+    }
+
+    private ReturnUserDTO toDTO(User user)
+    {
+        return user switch
+        {
+            Admin a => new ReturnUserDTO()
+            {
+                Id = a.Id,
+                Username = a.Username,
+                userType = UserType.Admin
+            },
+            Manager m => new ReturnUserDTO()
+            {
+                Id = m.Id,
+                Username = m.Username,
+                HotelId = m.HotelId,
+                userType = UserType.Manager
+            },
+            Member mr => new ReturnUserDTO()
+            {
+                Id = mr.Id,
+                Username = mr.Username,
+                userType = UserType.Member,
+                LicenseNumber = mr.LicenseNumber,
+                Email = mr.Email,
+                PhoneNumber = mr.PhoneNumber,
+                RewardPoints = mr.RewardPoints,
+                InBlocklist = mr.InBlocklist
+            },
+            _ => throw new Exception("Unknown user type")
+        };
     }
 }
