@@ -1,5 +1,5 @@
 
-import styles from './SearchBar.module.css'
+import styles from '../styles/SearchBar.module.css'
 
 // We can pass in anything as props
 // ANYTHING

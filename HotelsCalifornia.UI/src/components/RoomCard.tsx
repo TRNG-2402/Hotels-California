@@ -1,6 +1,6 @@
 import type { Room } from "../types/Room"
 //TODO make own styles for room
-import styles from './HotelCard.module.css'
+import styles from '../styles/HotelCard.module.css'
 import { Link } from "react-router-dom"
 
 

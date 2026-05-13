@@ -1,0 +1,80 @@
+.container {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: #f4f6f9;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.header p {
+  color: #666;
+}
+
+.hotelGrid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.hotelCard {
+  background-color: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  transition: 0.2s;
+}
+
+.hotelCard:hover {
+  transform: translateY(-4px);
+}
+
+.hotelImage {
+  height: 180px;
+  background-color: #d9d9d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  font-weight: bold;
+}
+
+.hotelCard h2 {
+  padding: 18px 18px 8px;
+  color: #222;
+}
+
+.description {
+  padding: 0 18px;
+  color: #666;
+}
+
+.address {
+  padding: 12px 18px;
+  color: #444;
+  font-weight: 500;
+}
+
+.reserveButton {
+  margin: 18px;
+  width: calc(100% - 36px);
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0077cc;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.reserveButton:hover {
+  background-color: #005fa3;
+}
