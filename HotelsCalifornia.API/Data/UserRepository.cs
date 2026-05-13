@@ -12,6 +12,10 @@ public interface IUserRepository
     /// Returns a list of all rooms in the database
     /// </summary>
     Task<IEnumerable<User>> GetUsersAsync();
+
+    Task<IEnumerable<Manager>> GetManagersAsync();
+    Task<IEnumerable<Member>> GetMembersAsync();
+
     /// <summary>
     /// Returns a room associated with a given hotel
     /// </summary>
@@ -42,6 +46,16 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<IEnumerable<User>> GetUsersAsync()
     {
         return await _context.Users.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Manager>> GetManagersAsync()
+    {
+        return await _context.Managers.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Member>> GetMembersAsync()
+    {
+        return await _context.Members.ToListAsync();
     }
 
     public async Task<User> GetUserByIdAsync(int userId)
