@@ -8,17 +8,27 @@ import { roomService } from "../services/roomService"
 export default function Rooms()
 {
   // const { hotelId } = useParams();
+  const testHotelId = 1;
   // const [roomList, setRoomList] = useState<Room[]>([]);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState<string | null>(null);
 
+  // assume this is the rooms of specific hotels from /api/Room/room/hotel/{hotelId}
   const testRooms: Room[] = [
     {
       roomId: 1,
       hotelId: 1,
       roomNumber: 101,
-      dailyRate: 5052025,
+      dailyRate: 5,
       numBeds: 3,
+      description: "something"
+    },
+    {
+      roomId: 2,
+      hotelId: 1,
+      roomNumber: 102,
+      dailyRate: 4.5,
+      numBeds: 4,
       description: "something"
     }
   ]
@@ -56,7 +66,9 @@ export default function Rooms()
         //   )
         <div>
           {
-            testRooms.map((r) => <RoomCard key={r.roomId} room={r} />)
+            testRooms.length === 0 ?
+              <p>Sorry! There's no room</p> :
+              testRooms.map((r) => <RoomCard key={r.roomId} room={r} />)
           }
         </div>
       }

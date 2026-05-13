@@ -9,7 +9,7 @@ export const roomService = {
     },
     async getRoomsByHotelId(hotelId: string)
     {
-        const response = await api.get(`/api/Room/room/hotel/${hotelId}`);
+        const response = await api.get<Room[]>(`Room/room/hotel/${hotelId}`);
         return response.data;
     }
 }
