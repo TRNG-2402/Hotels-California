@@ -65,4 +65,4 @@ jobs:
 
           - name: Build Docker Image (no push)
             working-directory: HotelsCalifornia.API
-            run: docker build -t library-api:ci .
+            run: docker build -t hotelscalifornia-api:ci .
