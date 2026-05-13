@@ -4,8 +4,11 @@ import { useState, useEffect } from "react"
 import EmptyState from "../components/EmptyState"
 import { hotelService } from "../services/hotelService"
 import SearchBar from "../components/SearchBar"
+import { useAuth } from "../context/AuthContext"
 
 export default function Hotels() {
+
+  const { user } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -21,16 +24,21 @@ export default function Hotels() {
       .then((data) => setHotelList(data))
       .catch((err) => setError(err.message ?? 'Failed to load hotel'))
       .finally(() => setIsLoading(false))
-  })
+  }, [])
 
   if (isLoading) return <main><p>Loading Hotels...</p></main>
 
   if (error) return <main><p style={{color : 'red'}}>{error}</p></main>
 
-  const filtered = hotelList.filter((h) =>
+const filtered = hotelList.filter((h) =>
   h.name.toLowerCase().includes(searchTerm.toLowerCase())
 );
 
+  const handleDelete = async (id: number) => {
+    await hotelService.deleteById(id);
+
+    setHotelList((prev) => prev.filter((h) => h.hotelId !== id));
+  }
 
   return (
     <main>
@@ -41,11 +49,23 @@ export default function Hotels() {
           <EmptyState message={`No hotels match "${searchTerm}"`} />
         ) : (
           <section>
-        {
-          
+          {
             filtered.map((h) => (
+              <div>
               <HotelCard key={h.hotelId} hotel={h} />
-            ))}
+
+              {user?.role === 'Admin' && (
+                <button
+                  onClick={() => handleDelete(h.hotelId)}
+                  style={{ marginLeft: '0.5rem'}} 
+                >
+                  Delete
+                </button>
+              )}
+              </div>
+            ))
+          }
+          
           </section>
         )}
     </main>
