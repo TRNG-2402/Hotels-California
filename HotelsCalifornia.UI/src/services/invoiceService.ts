@@ -16,7 +16,7 @@ export const invoiceService = {
     {
         const response = await api.get<Invoice[]>(`/Invoice/Members/${id}`)
         return response.data
-    }
+    },
     // async createInvoice(invoice: Invoice): Promise<Invoice>
     // {
     //     const response = await api.post<Invoice>(`/Invoice`)
