@@ -1,6 +1,6 @@
 
 import type { Hotel } from '../types/Hotel';
-import styles from './HotelCard.module.css'
+import styles from '../styles/HotelCard.module.css'
 import { Link } from 'react-router-dom';
 
 interface HotelCardProps {
