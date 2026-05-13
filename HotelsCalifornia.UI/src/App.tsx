@@ -8,7 +8,6 @@ import Rooms from './pages/Rooms'
 import Hotels from './pages/Hotels'
 import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
-import AdminViewHotels from './pages/AdminViewHotels'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
 
@@ -30,7 +29,6 @@ function App()
         <Route path='/Hotels' element={<Hotels />} />
         <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
         <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
-        <Route path='/AdminViewHotels' element={<AdminViewHotels />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </main>
