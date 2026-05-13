@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Controllers;
+
 using HotelsCalifornia.Services;
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
@@ -19,6 +20,11 @@ public class InvoiceController : ControllerBase
     public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoicesAsync()
     {
         return Ok(await _service.GetInvoicesAsync());
+    }
+    [HttpGet("Members/{id}")]
+    public async Task<ActionResult<IEnumerable<Invoice>>> GetInvoicesByMemberIdAsync(int id)
+    {
+        return Ok(await _service.GetInvoicesByMemberIdAsync(id));
     }
 
     [HttpGet("{id}")]

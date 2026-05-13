@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Services;
+
 using HotelsCalifornia.Data;
 using HotelsCalifornia.DTOs;
 using HotelsCalifornia.Models;
@@ -6,6 +7,7 @@ using HotelsCalifornia.Models;
 public interface IInvoiceService
 {
     Task<IEnumerable<Invoice>> GetInvoicesAsync();
+    Task<IEnumerable<Invoice>> GetInvoicesByMemberIdAsync(int id);
     Task<Invoice> GetInvoiceAsync(int id);
     Task<Invoice> CreateInvoiceAsync(NewInvoiceDTO newInvoice);
     Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO invoiceToAdd);
@@ -24,6 +26,24 @@ public class InvoiceService : IInvoiceService
     public async Task<IEnumerable<Invoice>> GetInvoicesAsync()
     {
         return await _repo.GetInvoicesAsync();
+    }
+
+    public async Task<IEnumerable<Invoice>> GetInvoicesByMemberIdAsync(int memberId)
+    {
+        if (memberId < 0)
+            throw new ArgumentOutOfRangeException("Member ID must be a positive number");
+
+        var allInvoices = await _repo.GetInvoicesAsync();
+        List<Invoice> output = [];
+
+        foreach (var r in allInvoices)
+        {
+            if (r.MemberId == memberId)
+            {
+                output.Append(r);
+            }
+        }
+        return output;
     }
 
     public async Task<Invoice> GetInvoiceAsync(int id)
