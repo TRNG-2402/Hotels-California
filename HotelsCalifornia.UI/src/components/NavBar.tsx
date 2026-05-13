@@ -17,8 +17,8 @@ export default function NavBar()
     return (
         <nav className={styles.css}>
             <Link to="/" className={styles.link}>Home</Link>
-            <Link to="/Hotels" className={styles.link}></Link>
-            <Link to="/Reservations" className={styles.link}></Link>
+            <Link to="/Hotels" className={styles.link}>Hotels</Link>
+            <Link to="/Reservations" className={styles.link}>Reservations</Link>
             {
                 isAuthenticated ? (
                     <>
