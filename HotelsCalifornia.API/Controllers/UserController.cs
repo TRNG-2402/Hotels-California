@@ -4,9 +4,11 @@ using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Policy = "AdminOnly")]
 public class UserController(IUserService service) : ControllerBase
 {
     private readonly IUserService _service = service;
@@ -17,24 +19,40 @@ public class UserController(IUserService service) : ControllerBase
         return Ok(await _service.GetUsersAsync());
     }
 
+    [HttpGet("managers")]
+    public async Task<ActionResult<IEnumerable<ReturnManagerDTO>>> GetManagersAsync()
+    {
+        return Ok(await _service.GetManagersAsync());
+    }
+
+    [HttpGet("members")]
+    public async Task<ActionResult<IEnumerable<ReturnMemberDTO>>> GetMembersAsync()
+    {
+        return Ok(await _service.GetMembersAsync());
+    }
+
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,Manager,Member")]
     public async Task<ActionResult<ReturnUserDTO>> GetUserByIdAsync(int id)
     {
         return Ok(await _service.GetUserAsync(id));
     }
 
     [HttpPost("Member")]
+    [AllowAnonymous]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewMemberDTO newUser)
     {
         User created = await _service.CreateUserAsync(newUser);
         return Created(nameof(CreateUserAsync), created);
     }
+
     [HttpPost("Manager")]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewManagerDTO newUser)
     {
         User created = await _service.CreateUserAsync(newUser);
         return Created(nameof(CreateUserAsync), created);
     }
+
     [HttpPost("Admin")]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewAdminDTO newUser)
     {
@@ -43,6 +61,7 @@ public class UserController(IUserService service) : ControllerBase
     }
 
     [HttpPatch]
+    [Authorize(Roles = "Admin,Manager,Member")]
     public async Task<ActionResult> UpdateUserAsync([FromBody] UpdateUserDTO updateUser)
     {
         await _service.UpdateUserAsync(updateUser);
@@ -50,6 +69,7 @@ public class UserController(IUserService service) : ControllerBase
     }
 
     [HttpPatch("{id}/{points}")]
+    [Authorize(Roles = "Admin,Manager")]
     public async Task<ActionResult> IncrementMemberRewards(int id, int points)
     {
         await _service.IncrementMemberRewards(id, points);
@@ -57,6 +77,7 @@ public class UserController(IUserService service) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin,Manager,Member")]
     public async Task<ActionResult> DeleteUserAsync(int id)
     {
         await _service.DeleteUserAsync(id);

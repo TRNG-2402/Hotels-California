@@ -8,6 +8,8 @@ using HotelsCalifornia.Models;
 public interface IUserService
 {
     Task<IEnumerable<ReturnUserDTO>> GetUsersAsync();
+    Task<IEnumerable<ReturnManagerDTO>> GetManagersAsync();
+    Task<IEnumerable<ReturnMemberDTO>> GetMembersAsync();
     Task<ReturnUserDTO> GetUserAsync(int userId);
     Task<User> CreateUserAsync(NewUserDTO newUser);
     Task<User> UpdateUserAsync(UpdateUserDTO updateUser);
@@ -27,6 +29,40 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         foreach (User user in users)
             userDTOs.Add(toDTO(user));
         return userDTOs;
+    }
+
+    public async Task<IEnumerable<ReturnManagerDTO>> GetManagersAsync()
+    {
+        var managers = await _repo.GetManagersAsync();
+        List<ReturnManagerDTO> managerDTOs = [];
+        foreach (Manager manager in managers)
+            managerDTOs.Add(new ReturnManagerDTO()
+            {
+                Id = manager.Id,
+                Username = manager.Username,
+                HotelId = manager.HotelId,
+                userType = UserType.Manager
+            });
+        return managerDTOs;
+    }
+
+    public async Task<IEnumerable<ReturnMemberDTO>> GetMembersAsync()
+    {
+        var members = await _repo.GetMembersAsync();
+        List<ReturnMemberDTO> memberDTOs = [];
+        foreach (Member member in members)
+            memberDTOs.Add(new ReturnMemberDTO()
+            {
+                Id = member.Id,
+                Username = member.Username,
+                userType = UserType.Member,
+                LicenseNumber = member.LicenseNumber,
+                PhoneNumber = member.PhoneNumber,
+                Email = member.Email,
+                RewardPoints = member.RewardPoints,
+                InBlocklist = member.InBlocklist
+            });
+        return memberDTOs;
     }
 
     public async Task<ReturnUserDTO> GetUserAsync(int userId)
