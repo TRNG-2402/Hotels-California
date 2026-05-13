@@ -2,7 +2,7 @@
 
 export interface Room
 {
-    roomId: number,
+    id: number,
     hotelId: number,
     roomNumber: number,
     dailyRate: number,

@@ -13,6 +13,7 @@ export default function RoomCard({ room }: RoomCardProps)
     return (
         <div className={styles.card}>
             <h3>{room.roomNumber}</h3>
+            <p>(Test only)ID: {room.id}</p>
             <p>{room.description}</p>
             <p>Number of beds: {room.numBeds}</p>
             <p>Daily Rate: {room.dailyRate}</p>
