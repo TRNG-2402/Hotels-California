@@ -1,6 +1,7 @@
 namespace HotelsCalifornia.Services;
 
 using System.Buffers;
+using System.Text.RegularExpressions;
 using HotelsCalifornia.Data;
 using HotelsCalifornia.DTOs;
 using HotelsCalifornia.Models;
@@ -51,24 +52,22 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         if (newUser is NewManagerDTO newManager)
         {
             if (newManager.HotelId < 1)
-                throw new ArgumentException("Manager must have a hotel, Id cannot be less than 1");
+                throw new ArgumentOutOfRangeException("Id cannot be less than 1");
             if (await _hotelService.GetHotelAsync(newManager.HotelId) is null)
-                throw new ArgumentException("Manager must have a hotel, No hotel exists with the provided hotel Id");
+                throw new ArgumentException("No hotel exists with the provided hotel Id");
         }
 
         if (newUser is NewMemberDTO newMember)
         {
-            if (newMember.LicenseNumber.Length < 9 || newMember.LicenseNumber.Length > 14) 
-                throw new ArgumentException("Licence number must be bewteen 9 and 14 characters");
-            if (newMember.Email.Length < 1)
-                throw new ArgumentException("Email must not be empty");
-            if (newMember.Email.Length > 50) 
-                throw new ArgumentException("Email must not exceed 50 characters");
-            if (newMember.PhoneNumber.Length != 10)
-                throw new ArgumentException("PhoneNumber should be exactly 10 digits");
+            if (newMember.LicenseNumber.Length < 7 || newMember.LicenseNumber.Length > 31) 
+                throw new ArgumentException("Licence number must be bewteen 7 and 31 characters");
+            if (!IsValidEmail(newMember.Email))
+                throw new ArgumentException("Invalid email");
+            if (!IsValidPhoneNumber(newMember.PhoneNumber))
+                throw new ArgumentException("Invalid phone number");
         }
-
-        return await _repo.CreateUserAsync(newUser);
+        
+        return await _repo.CreateUserAsync(newUser);                
     }
 
     public async Task<User> UpdateUserAsync(UpdateUserDTO updateUser)
@@ -82,12 +81,12 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
 
         if (updateUser is UpdateMemberDTO member)
         {
-            if ((member.LicenseNumber.Length < 9 || member.LicenseNumber.Length > 14) && member.LicenseNumber is not null) 
-                throw new ArgumentException("Licence number must be bewteen 9 and 14 characters");
-            if (member.Email.Length > 50) 
-                throw new ArgumentException("Email must not exceed 50 characters");
-            if (member.PhoneNumber.Length != 10 && member.PhoneNumber.Length > 0)
-                throw new ArgumentException("PhoneNumber should be exactly 10 digits");
+            if (member.Email is not null && !IsValidEmail(member.Email))
+                throw new ArgumentException("Invalid email");
+            if (member.PhoneNumber is not null && !IsValidPhoneNumber(member.PhoneNumber))
+                throw new ArgumentException("Invalid phone number");
+            if (member.LicenseNumber is not null && (member.LicenseNumber.Length < 7 || member.LicenseNumber.Length > 31)) 
+                throw new ArgumentException("Licence number must be bewteen 7 and 31 characters");
         }
         return await _repo.UpdateUserAsync(updateUser);
     }
@@ -103,6 +102,18 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         if (userId < 1)
             throw new ArgumentOutOfRangeException("User ID must be a positive number");
         return await _repo.DeleteUserAsync(userId);
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        Regex pattern = new(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+        return pattern.IsMatch(email);
+    }
+
+    private bool IsValidPhoneNumber(string phoneNumber)
+    {
+        Regex pattern = new("^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$");
+        return pattern.IsMatch(phoneNumber);
     }
 
     private ReturnUserDTO toDTO(User user)

@@ -55,7 +55,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<BuildTokenDTO> GetUserByUsernameAsync(string username)
     {
         User user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username)
-            ?? throw new UnauthorizedAccessException("Invalid username or password");
+            ?? throw new KeyNotFoundException($"No user with username {username}");
 
         return new BuildTokenDTO
         {
@@ -78,6 +78,11 @@ public class UserRepository(AppDbContext context) : IUserRepository
         {
             throw new ArgumentException("Username and password MUST have values");
         }
+
+        var existing = _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+        if (existing is not null)
+            throw new ArgumentException("Username already taken");
+
         User user = dto switch
         {
             NewAdminDTO admin => new Admin
@@ -112,8 +117,6 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<User> UpdateUserAsync(UpdateUserDTO updateUserDTO) {
         User toUpdate = await GetUserByIdAsync(updateUserDTO.Id);
 
-        if (updateUserDTO.Username is not null)
-            toUpdate.Username = updateUserDTO.Username;
         if (updateUserDTO.PasswordHash is not null)
             toUpdate.PasswordHash = updateUserDTO.PasswordHash;
 
