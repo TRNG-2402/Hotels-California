@@ -26,6 +26,7 @@ export default function NavBar()
                     isAuthenticated ? (
                         <>
                             <span className={styles.greeting}>Hello, {user?.username}</span>
+                            <Link to="/ResetPassword" className={styles.link}>Reset Password</Link>
                             <button className={styles.linkButton} onClick={handleLogout}>
                                 Log out
                             </button>
