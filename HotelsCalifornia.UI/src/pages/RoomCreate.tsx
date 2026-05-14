@@ -22,6 +22,7 @@ export default function CreateRoom()
             e.preventDefault();
             await roomService.createRoom(room);
             navigate(`/hotels/${hotelId}/rooms`);
+            alert("Room created!");
         }
         catch (err: any)
         {
