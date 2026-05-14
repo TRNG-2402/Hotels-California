@@ -2,7 +2,7 @@ import RoomCard from "../components/RoomCard"
 import type { Room } from "../types/Room"
 import { useState, useEffect } from "react"
 import { roomService } from "../services/roomService"
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function RoomsOfHotel()
 {
@@ -38,6 +38,9 @@ export default function RoomsOfHotel()
                         roomList.map((r) => <RoomCard key={r.id} room={r} />)
                 }
             </div>
+            <Link to={`/hotels/${hotelId}/rooms/create`}>
+                <button>Click me to create a new room for hotel {hotelId}</button>
+            </Link>
         </main>
     )
 }

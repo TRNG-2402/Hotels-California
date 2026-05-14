@@ -9,3 +9,12 @@ export interface Room
     numBeds: number,
     description: string
 }
+
+export interface NewRoom
+{
+    hotelId: number,
+    roomNumber: number,
+    dailyRate: number,
+    numBeds: number,
+    description: string
+}

@@ -12,12 +12,7 @@ export default function Rooms()
   useEffect(() =>
   {
     roomService.getAllRooms()
-      .then((data) =>
-      {
-        console.log("API data =", data);
-        console.log("Type =", Array.isArray(data));
-        setRoomList(data)
-      })
+      .then((data) => setRoomList(data))
       .catch((err) => setError(err.message ?? 'Failed to load rooms'))
       .finally(() => setIsLoading(false))
   }, [])

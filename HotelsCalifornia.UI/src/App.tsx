@@ -15,6 +15,7 @@ import NewHotel from './pages/NewHotel'
 import Invoice from './pages/Invoice'
 import RoomsOfHotel from './pages/RoomsOfHotel'
 import Register from './pages/Register'
+import RoomCreate from './pages/RoomCreate'
 
 function App()
 {
@@ -34,6 +35,7 @@ function App()
           <Route path='/MemberInvoice' element={<MemberInvoice />} />
           <Route path='/Rooms' element={<Rooms />} />
           <Route path="/hotels/:hotelId/rooms" element={<RoomsOfHotel />} />
+          <Route path="/hotels/:hotelId/rooms/create" element={<RoomCreate />} />
           <Route path='/Hotels' element={<Hotels />} />
           <Route path='/NewHotel' element={<NewHotel />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
