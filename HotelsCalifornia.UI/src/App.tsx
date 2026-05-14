@@ -31,7 +31,6 @@ function App()
           <Route path='/Hotels' element={<Hotels />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
-          <Route path='/AdminViewHotels' element={<AdminViewHotels />} />
           <Route path='/*' element={<NotFound />} />
         </Routes>
       </main>

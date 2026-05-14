@@ -1,97 +1,72 @@
-import { useState } from "react";
-import SearchBar from "../components/SearchBar";
-import type { Hotel } from "../types/Hotel";
-import styles from "../styles/Hotels.module.css";
+import HotelCard from "../components/HotelCard"
+import type { Hotel } from "../types/Hotel"
+import { useState, useEffect } from "react"
+import EmptyState from "../components/EmptyState"
+import { hotelService } from "../services/hotelService"
+import SearchBar from "../components/SearchBar"
+import { useAuth } from "../context/AuthContext"
 
 export default function Hotels() {
 
-  const [search, setSearch] = useState("");
+  const { user } = useAuth();
 
-  const hotels: Hotel[] = [
-  {
-    hotelId: 1,
-    name: "Sunset Pacific Resort",
-    description: "Beachfront resort with ocean views, spa services, and fine dining.",
-    address: "Santa Monica, California"
-  },
-  {
-    hotelId: 2,
-    name: "Golden Gate Grand Hotel",
-    description: "Modern luxury hotel near downtown with rooftop lounge and bay views.",
-    address: "San Francisco, California"
-  },
-  {
-    hotelId: 3,
-    name: "Palm Oasis Retreat",
-    description: "Relaxing desert escape featuring pools, cabanas, and wellness programs.",
-    address: "Palm Springs, California"
-  },
-  {
-    hotelId: 4,
-    name: "Hollywood Star Suites",
-    description: "Boutique hotel located near Hollywood attractions with premium suites.",
-    address: "Los Angeles, California"
-  },
-  {
-    hotelId: 5,
-    name: "Yosemite Valley Lodge",
-    description: "Nature-focused lodge offering scenic views and outdoor adventure access.",
-    address: "Yosemite National Park, California"
+  const [hotelList, setHotelList] = useState<Hotel[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const [isLoading,setIsLoading] = useState(true);
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+
+    hotelService.getAllHotels()
+      .then((data) => setHotelList(data))
+      .catch((err) => setError(err.message ?? 'Failed to load hotel'))
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  if (isLoading) return <main><p>Loading Hotels...</p></main>
+
+  if (error) return <main><p style={{color : 'red'}}>{error}</p></main>
+
+const filtered = hotelList.filter((h) =>
+  h.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+  const handleDelete = async (id: number) => {
+    await hotelService.deleteById(id);
+
+    setHotelList((prev) => prev.filter((h) => h.hotelId !== id));
   }
-  ];
-
-
-  const filteredHotels = hotels.filter((hotel) =>
-    hotel.name.toLowerCase().includes(search.toLowerCase()) ||
-    hotel.address.toLowerCase().includes(search.toLowerCase())
-  );
 
   return (
-    <div className={styles.container}>
+    <main>
+      <p>hello</p>
+      <SearchBar value={searchTerm} onSearchChange={setSearchTerm} />
+      {
+        filtered.length === 0 ? (
+          <EmptyState message={`No hotels match "${searchTerm}"`} />
+        ) : (
+          <section>
+          {
+            filtered.map((h) => (
+              <div>
+              <HotelCard key={h.hotelId} hotel={h} />
 
-      <div className={styles.header}>
-        <h1>Find Your Perfect Hotel</h1><br/>
-
-        <p>
-          Search hotels by city or hotel name
-        </p>
-      </div>
-
-      <SearchBar
-        value={search}
-        onSearchChange={setSearch}
-      />
-
-      <div className={styles.hotelGrid}>
-
-        {filteredHotels.map((hotel) => (
-          <div
-            key={hotel.hotelId}
-            className={styles.hotelCard}
-          >
-
-            <div className={styles.hotelImage}>
-              Hotel Image
-            </div>
-
-            <h2>{hotel.name}</h2>
-
-            <p className={styles.description}>
-              {hotel.description}
-            </p>
-
-            <p className={styles.address}>
-              {hotel.address}
-            </p>
-
-            <button className={styles.reserveButton}>
-              Reserve Now
-            </button>
-
-          </div>
-        ))}
-
-      </div>
-    </div>
-  );
+              {user?.role === 'Admin' && (
+                <button
+                  onClick={() => handleDelete(h.hotelId)}
+                  style={{ marginLeft: '0.5rem'}} 
+                >
+                  Delete
+                </button>
+              )}
+              </div>
+            ))
+          }
+          
+          </section>
+        )}
+    </main>
+  )
 }

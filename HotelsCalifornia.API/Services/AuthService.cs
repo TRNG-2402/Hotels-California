@@ -19,11 +19,11 @@ public class AuthService(IUserRepository repo, IConfiguration config) : IAuthSer
     public async Task<TokenResponseDTO> Login(LoginRequestDTO request)
     {
         if (string.IsNullOrWhiteSpace(request.Username) ||
-            string.IsNullOrWhiteSpace(request.PasswordHash))
+            string.IsNullOrWhiteSpace(request.Password))
             throw new UnauthorizedAccessException("Username and password are required");
 
         BuildTokenDTO userInfo = await _repo.GetUserByUsernameAsync(request.Username);
-        if (userInfo.PasswordHash != request.PasswordHash)
+        if (userInfo.PasswordHash != request.Password)
             throw new UnauthorizedAccessException("Invalid username or password");
         return BuildToken(userInfo);
     }

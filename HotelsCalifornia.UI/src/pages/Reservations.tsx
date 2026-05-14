@@ -1,152 +1,70 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Reservation } from "../types/Reservation";
+import ReservationCard from "../components/ReservationCard";
+import { reservationService } from "../services/reservationService";
 import styles from "../styles/Reservations.module.css";
 
 export default function Reservations() {
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [reservation, setReservation] = useState<Reservation>({
-    reservationId: 0,
-    memberId: 0,
-    roomId: 0,
-    hotelId: 0,
-    checkInTime: new Date(),
-    checkOutTime: new Date(),
-    driversLicense: "",
-    email: "",
-    phoneNumber: "",
-    isCanceled: false
-  });
+  useEffect(() => {
+    let isMounted = true;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value, type, checked } = e.target;
+    async function loadReservations() {
+      try {
+        setIsLoading(true);
+        setError(null);
 
-    let updatedValue: any;
+        const results = await reservationService.getAllReservations();
 
-    if (type === "checkbox") {
-      updatedValue = checked;
-    }
-    else if (
-      name === "memberId" ||
-      name === "roomId" ||
-      name === "hotelId"
-    ) {
-      updatedValue = Number(value);
-    }
-    else if (
-      name === "checkInTime" ||
-      name === "checkOutTime"
-    ) {
-      updatedValue = new Date(value);
-    }
-    else {
-      updatedValue = value;
+        if (isMounted) {
+          console.log(results);
+
+          setReservations(results);
+        }
+      }
+      catch {
+        if (isMounted) {
+          setError("Unable to load reservations.");
+        }
+      }
+      finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
     }
 
-    setReservation((prev) => ({
-      ...prev,
-      [name]: updatedValue,
-    }));
-  };
+    loadReservations();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    console.log("Reservation Submitted:", reservation);
-
-    // axios.post(...)
-  };
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className={styles.reservationContainer}>
-      <div className={styles.reservationCard}>
+      <h1 className={styles.title}>Reservations</h1>
 
-        <h1 className={styles.title}>
-          Hotel Reservation
-        </h1>
+      {isLoading && <p className={styles.message}>Loading reservations...</p>}
+      {error && <p className={styles.error}>{error}</p>}
 
-        <form onSubmit={handleSubmit}>
+      {!isLoading && !error && reservations.length === 0 && (
+        <p className={styles.message}>No reservations found.</p>
+      )}
 
-          <div className={styles.formGroup}>
-            <label>Hotel ID</label>
-            <input
-              type="number"
-              name="hotelId"
-              placeholder="Enter hotel ID"
-              onChange={handleChange}
+      {!isLoading && !error && reservations.length > 0 && (
+        <div className={styles.reservationList}>
+          {reservations.map((reservation) => (
+            <ReservationCard
+              key={reservation.reservationId}
+              reservation={reservation}
             />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Check In Date</label>
-            <input
-              type="datetime-local"
-              name="checkInTime"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Check Out Date</label>
-            <input
-              type="datetime-local"
-              name="checkOutTime"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Driver License</label>
-            <input
-              type="text"
-              name="driversLicense"
-              placeholder="Enter driver license"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter customer email"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Phone Number</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              placeholder="Enter phone number"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.checkboxGroup}>
-            <input
-              type="checkbox"
-              name="isCanceled"
-              onChange={handleChange}
-            />
-
-            <label>
-              Reservation Cancelled
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            className={styles.submitButton}
-          >
-            Create Reservation
-          </button>
-
-        </form>
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
