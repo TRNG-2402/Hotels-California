@@ -18,10 +18,10 @@ public interface IUserService
     
 }
 
-public class UserService(IUserRepository repo, IHotelService hotelService) : IUserService
+public class UserService(IUserRepository repo, IHotelRepository hotelRepository) : IUserService
 {
     private readonly IUserRepository _repo = repo;
-    private readonly IHotelService _hotelService = hotelService;
+    private readonly IHotelRepository _hotelRepo = hotelRepository;
     public async Task<IEnumerable<ReturnUserDTO>> GetUsersAsync()
     {
         var users = await _repo.GetUsersAsync();
@@ -89,7 +89,7 @@ public class UserService(IUserRepository repo, IHotelService hotelService) : IUs
         {
             if (newManager.HotelId < 1)
                 throw new ArgumentOutOfRangeException("Id cannot be less than 1");
-            if (await _hotelService.GetHotelAsync(newManager.HotelId) is null)
+            if (await _hotelRepo.GetHotelByIdAsync(newManager.HotelId) is null)
                 throw new ArgumentException("No hotel exists with the provided hotel Id");
         }
 

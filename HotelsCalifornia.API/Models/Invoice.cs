@@ -18,9 +18,9 @@ public class Invoice
 
     [ForeignKey("Member")]
     public int? MemberId { get; set; }
-    
+
     [ForeignKey("Reservation")]
-    public List<int> ReservationId { get; set; } = new();
+    public int ReservationId { get; set; }
 
     public bool IsPaid { get; set; } = false;
 }

@@ -16,3 +16,4 @@ export interface AuthUser
     username: string;
     role: 'Member' | 'Manager' | 'Admin';
 }
+
