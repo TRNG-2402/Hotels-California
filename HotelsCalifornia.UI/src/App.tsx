@@ -13,6 +13,7 @@ import NavBar from './components/NavBar'
 import NewHotel from './pages/NewHotel'
 import Invoice from './pages/Invoice'
 import RoomsOfHotel from './pages/RoomsOfHotel'
+import Register from './pages/Register'
 
 function App()
 {
@@ -36,7 +37,7 @@ function App()
           <Route path='/NewHotel' element={<NewHotel />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
-
+          <Route path='/Register' element={<Register />} />
           <Route path='/Invoice' element={<Invoice />} />
           <Route path='/*' element={<NotFound />} />
         </Routes>

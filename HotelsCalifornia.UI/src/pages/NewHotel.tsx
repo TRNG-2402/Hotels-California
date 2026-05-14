@@ -30,8 +30,6 @@ export default function NewHotel() {
             }
             const h: Hotel = await hotelService.postNewHotel(newHotel);
 
-            console.log("HOTEL OBJECT:", h);
-        console.log("HOTEL ID:", h.id);
             const newManager: NewManagerDTO = {
                 hotelId: h.id,
                 username: username,

@@ -26,6 +26,11 @@ export default function NavBar()
                             <Link to="/Invoice" className={styles.link}>Invoice</Link>
                         ) : (<></>)
                     }
+                    {
+                        !isAuthenticated || user?.role === 'Admin' ? (
+                            <Link to="/Register" className={styles.link}>Register</Link>
+                        ) : (<></>)
+                    }
                 </li>
                 <li>
                     {
