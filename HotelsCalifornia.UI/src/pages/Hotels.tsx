@@ -10,9 +10,9 @@ export default function Hotels() {
 
   const { user } = useAuth();
 
-  const [searchTerm, setSearchTerm] = useState('');
-
   const [hotelList, setHotelList] = useState<Hotel[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [isLoading,setIsLoading] = useState(true);
 
@@ -31,8 +31,7 @@ export default function Hotels() {
   if (error) return <main><p style={{color : 'red'}}>{error}</p></main>
 
 const filtered = hotelList.filter((h) =>
-  h.name.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  h.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const handleDelete = async (id: number) => {
     await hotelService.deleteById(id);

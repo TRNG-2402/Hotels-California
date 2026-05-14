@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/App.css'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Reservations from './pages/Reservations'
@@ -16,22 +16,25 @@ function App()
 
 
   return (
-    <main>
-      <h1>Hotels California</h1>
-      <p>Find a home away from home</p>
-      <NavBar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/Reservations' element={<Reservations />} />
-        <Route path='/MemberInvoice' element={<MemberInvoice />} />
-        <Route path='/Rooms' element={<Rooms />} />
-        <Route path='/Hotels' element={<Hotels />} />
-        <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
-        <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
-        <Route path='/*' element={<NotFound />} />
-      </Routes>
-    </main>
+    <>
+      
+      <main style={{ flex: 1 }}>
+        <h1>Hotels California</h1>
+        <p style={{margin: "32px"}}>Find a home away from home</p>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/Login' element={<Login />} />
+          <Route path='/Reservations' element={<Reservations />} />
+          <Route path='/MemberInvoice' element={<MemberInvoice />} />
+          <Route path='/Rooms' element={<Rooms />} />
+          <Route path='/Hotels' element={<Hotels />} />
+          <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
+          <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
+          <Route path='/*' element={<NotFound />} />
+        </Routes>
+      </main>
+    </>
   )
 }
 

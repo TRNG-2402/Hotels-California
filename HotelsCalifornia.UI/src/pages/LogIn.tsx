@@ -1,60 +1,96 @@
-import React from 'react'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import "../styles/Login.css";
 
-export default function Login()
-{
+export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if(!username.trim() || !password.trim()) return;
-
-    setError(null);
+    setError("");
+    setLoading(true);
 
     try {
-      await login({username, password});
-      navigate('/');
-
+      await login({ username, password });
+      navigate("/");
     } catch (err: any) {
-
-      setError(err.response?.data?.message ?? 'Login failed');
+      setError(
+        err.response?.data?.message ||
+        "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <div>
-        <label>
-          Username:{' '}
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+    <div className="login-container">
+      <div className="login-card">
+
+        <div className="login-header">
+          <h1>Welcome Back</h1>
+        </div>
+
+        {error && (
+          <div style={{
+            color: "#d32f2f",
+            marginBottom: "1rem",
+            textAlign: "center"
+          }}>
+            {error}
+          </div>
+        )}
+
+        <form className="login-form" onSubmit={handleSubmit}>
+
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
-        </label>
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="login-options">
+            <label>
+              <input type="checkbox" />
+              Remember me
+            </label>
+
+            <a href="/*">Forgot Password?</a>
+          </div>
+
+          <button
+            type="submit"
+            className="login-button"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+        </form>
       </div>
-      <div>
-        <label>
-          Password:{' '}
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-      </div>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      <button type='submit'>Log in!</button>
-    </form>
-  )
+    </div>
+  );
 }

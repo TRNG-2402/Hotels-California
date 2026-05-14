@@ -1,6 +1,6 @@
 import type { Room } from "../types/Room"
 //TODO make own styles for room
-import styles from './HotelCard.module.css'
+import styles from '../styles/HotelCard.module.css'
 import { Link } from "react-router-dom"
 
 
@@ -14,8 +14,8 @@ export default function RoomCard({ room }: RoomCardProps)
         <div className={styles.card}>
             <h3>{room.roomNumber}</h3>
             <p>{room.description}</p>
-            <p>{room.numBeds}</p>
-            <p>{room.dailyRate}</p>
+            <p>Number of beds: {room.numBeds}</p>
+            <p>Daily Rate: {room.dailyRate}</p>
         </div>
     )
 }
