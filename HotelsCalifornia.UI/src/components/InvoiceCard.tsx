@@ -1,5 +1,4 @@
 import type { Invoice } from "../types/Invoice"
-import { Link } from "react-router-dom"
 
 interface InvoiceCardProps
 {
