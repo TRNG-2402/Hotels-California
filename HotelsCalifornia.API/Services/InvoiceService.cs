@@ -64,7 +64,7 @@ public class InvoiceService : IInvoiceService
         if (newInvoice.MemberId < 1)
             throw new ArgumentException("Member Id must be greater than zero.");
 
-        if (newInvoice.ReservationId.Any(id => id < 1))
+        if (newInvoice.ReservationId < 1)
             throw new ArgumentException("ReservationId must be greater than zero");
 
         Invoice invoice = new Invoice();

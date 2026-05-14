@@ -10,6 +10,7 @@ import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
+import Invoice from './pages/Invoice'
 
 function App()
 {
@@ -17,10 +18,10 @@ function App()
 
   return (
     <>
-      
+
       <main style={{ flex: 1 }}>
         <h1>Hotels California</h1>
-        <p style={{margin: "32px"}}>Find a home away from home</p>
+        <p style={{ margin: "32px" }}>Find a home away from home</p>
         <NavBar />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -31,6 +32,8 @@ function App()
           <Route path='/Hotels' element={<Hotels />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
+
+          <Route path='/Invoice' element={<Invoice />} />
           <Route path='/*' element={<NotFound />} />
         </Routes>
       </main>

@@ -20,20 +20,26 @@ export default function NavBar()
                 <li><Link to="/" className={styles.link}>Home</Link></li>
                 <li><Link to="/Hotels" className={styles.link}>Hotels</Link></li>
                 <li><Link to="/Reservations" className={styles.link}>Reservations</Link></li>
-            
                 <li>
-                {
-                    isAuthenticated ? (
-                        <>
-                            <span className={styles.greeting}>Hello, {user?.username}</span>
-                            <button className={styles.linkButton} onClick={handleLogout}>
-                                Log out
-                            </button>
-                        </>
-                    ) : (<Link to="/login" className={styles.link}>Login</Link>
+                    {
+                        isAuthenticated ? (
+                            <Link to="/Invoice" className={styles.link}>Invoice</Link>
+                        ) : (<></>)
+                    }
+                </li>
+                <li>
+                    {
+                        isAuthenticated ? (
+                            <>
+                                <span className={styles.greeting}>Hello, {user?.username}</span>
+                                <button className={styles.linkButton} onClick={handleLogout}>
+                                    Log out
+                                </button>
+                            </>
+                        ) : (<Link to="/login" className={styles.link}>Login</Link>
 
-                    )
-                }
+                        )
+                    }
                 </li>
             </ul>
 
