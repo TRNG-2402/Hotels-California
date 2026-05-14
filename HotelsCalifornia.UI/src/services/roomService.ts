@@ -8,6 +8,12 @@ export const roomService = {
         const response = await api.get<Room[]>('/room');
         return response.data;
     },
+    async getRoomById(id: number): Promise<Room> {
+    
+            const response = await api.get<Room>(`/Room/id/${id}`);
+            return response.data;
+    },
+
     async getRoomsByHotelId(hotelId: number): Promise<Room[]>
     {
         const response = await api.get<Room[]>(`Room/room/hotel/${hotelId}`);
