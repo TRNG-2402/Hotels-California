@@ -1,6 +1,7 @@
 import type { Room } from "../types/Room"
 //TODO make own styles for room
 import styles from '../styles/HotelCard.module.css'
+import { Link } from "react-router-dom"
 
 
 interface RoomCardProps
@@ -16,6 +17,8 @@ export default function RoomCard({ room }: RoomCardProps)
             <p>{room.description}</p>
             <p>Number of beds: {room.numBeds}</p>
             <p>Daily Rate: {room.dailyRate}</p>
+
+            <Link to={`/rooms/edit/${room.id}`}>Edit</Link>
         </div>
     )
 }

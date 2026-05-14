@@ -10,8 +10,13 @@ import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
+import ResetPassword from './pages/ResetPassword'
+import NewHotel from './pages/NewHotel'
 import Invoice from './pages/Invoice'
 import RoomsOfHotel from './pages/RoomsOfHotel'
+import Register from './pages/Register'
+import RoomCreate from './pages/RoomCreate'
+import RoomUpdate from './pages/RoomUpdate'
 
 function App()
 {
@@ -30,10 +35,15 @@ function App()
           <Route path='/Reservations' element={<Reservations />} />
           <Route path='/MemberInvoice' element={<MemberInvoice />} />
           <Route path='/Rooms' element={<Rooms />} />
+          <Route path="/rooms/edit/:roomId" element={<RoomUpdate />} />
           <Route path="/hotels/:hotelId/rooms" element={<RoomsOfHotel />} />
+          <Route path="/hotels/:hotelId/rooms/create" element={<RoomCreate />} />
           <Route path='/Hotels' element={<Hotels />} />
+          <Route path='/NewHotel' element={<NewHotel />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
+          <Route path='/Register' element={<Register />} />
+          <Route path='/ResetPassword' element={<ResetPassword />} />
 
           <Route path='/Invoice' element={<Invoice />} />
           <Route path='/*' element={<NotFound />} />

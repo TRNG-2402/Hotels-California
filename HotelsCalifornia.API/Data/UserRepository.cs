@@ -93,7 +93,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
             throw new ArgumentException("Username and password MUST have values");
         }
 
-        var existing = _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+        var existing = await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
         if (existing is not null)
             throw new ArgumentException("Username already taken");
 

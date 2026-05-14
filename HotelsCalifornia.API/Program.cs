@@ -123,7 +123,6 @@ app.UseCors("HotelsCaliforniaUI");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseAuthentication();
 
 app.MapControllers();
 
