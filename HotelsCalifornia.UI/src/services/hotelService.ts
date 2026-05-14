@@ -8,6 +8,12 @@ export const hotelService = {
         return response.data;
     },
 
+    async getHotelById(id: number): Promise<Hotel> {
+
+        const response = await api.get<Hotel>(`/Hotel/id/${id}`);
+        return response.data;
+    },
+
     async deleteById(id: number): Promise<void> {
         await api.delete(`/Hotel/${id}`)
     }
