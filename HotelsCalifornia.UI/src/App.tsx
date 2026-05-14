@@ -8,6 +8,7 @@ import Rooms from './pages/Rooms'
 import Hotels from './pages/Hotels'
 import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
+import AdminViewHotels from './pages/AdminViewHotels'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
 

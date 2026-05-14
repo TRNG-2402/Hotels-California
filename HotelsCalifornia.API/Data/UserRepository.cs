@@ -11,7 +11,11 @@ public interface IUserRepository
     /// <summary>
     /// Returns a list of all rooms in the database
     /// </summary>
-    Task<IEnumerable<ReturnUserDTO>> GetUsersAsync();
+    Task<IEnumerable<User>> GetUsersAsync();
+
+    Task<IEnumerable<Manager>> GetManagersAsync();
+    Task<IEnumerable<Member>> GetMembersAsync();
+
     /// <summary>
     /// Returns a room associated with a given hotel
     /// </summary>
@@ -39,45 +43,19 @@ public class UserRepository(AppDbContext context) : IUserRepository
 {
     private readonly AppDbContext _context = context;
 
-    public async Task<IEnumerable<ReturnUserDTO>> GetUsersAsync()
+    public async Task<IEnumerable<User>> GetUsersAsync()
     {
+        return await _context.Users.ToListAsync();
+    }
 
-        var users = await _context.Users.ToListAsync();
+    public async Task<IEnumerable<Manager>> GetManagersAsync()
+    {
+        return await _context.Managers.ToListAsync();
+    }
 
-        return users
-            .Select(u => u switch
-            {
-                Admin a => new ReturnUserDTO
-                {
-                    Id = a.Id,
-                    userType = UserType.Admin,
-                    Username = a.Username,
-                    PasswordHash = a.PasswordHash
-                },
-                Manager m => new ReturnUserDTO
-                {
-                    Id = m.Id,
-                    userType = UserType.Manager,
-                    Username = m.Username,
-                    PasswordHash = m.PasswordHash,
-                    HotelId = m.HotelId
-                },
-                Member mem => new ReturnUserDTO
-                {
-                    Id = mem.Id,
-                    userType = UserType.Member,
-                    Username = mem.Username,
-                    PasswordHash = mem.PasswordHash,
-                    LicenseNumber = mem.LicenseNumber,
-                    Email = mem.Email,
-                    PhoneNumber = mem.PhoneNumber,
-                    RewardPoints = mem.RewardPoints,
-                    InBlocklist = mem.InBlocklist
-                },
-                _ => throw new Exception("Unknown user type")
-            })
-            .ToList();
-
+    public async Task<IEnumerable<Member>> GetMembersAsync()
+    {
+        return await _context.Members.ToListAsync();
     }
 
     public async Task<User> GetUserByIdAsync(int userId)
@@ -91,7 +69,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<BuildTokenDTO> GetUserByUsernameAsync(string username)
     {
         User user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username)
-            ?? throw new UnauthorizedAccessException("Invalid username or password");
+            ?? throw new KeyNotFoundException($"No user with username {username}");
 
         return new BuildTokenDTO
         {
@@ -114,6 +92,11 @@ public class UserRepository(AppDbContext context) : IUserRepository
         {
             throw new ArgumentException("Username and password MUST have values");
         }
+
+        var existing = _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username);
+        if (existing is not null)
+            throw new ArgumentException("Username already taken");
+
         User user = dto switch
         {
             NewAdminDTO admin => new Admin
@@ -148,8 +131,6 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<User> UpdateUserAsync(UpdateUserDTO updateUserDTO) {
         User toUpdate = await GetUserByIdAsync(updateUserDTO.Id);
 
-        if (updateUserDTO.Username is not null)
-            toUpdate.Username = updateUserDTO.Username;
         if (updateUserDTO.PasswordHash is not null)
             toUpdate.PasswordHash = updateUserDTO.PasswordHash;
 

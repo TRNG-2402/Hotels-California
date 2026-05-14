@@ -18,12 +18,12 @@ public class UpdateMemberDTO : UpdateUserDTO
     public bool InBlocklist { get; set; } = false;
 }
 
-public class UpdateManagerDTO : NewUserDTO
+public class UpdateManagerDTO : UpdateUserDTO
 {
     // nothing requred here
 }
 
-public class UpdateAdminDTO : NewUserDTO
+public class UpdateAdminDTO : UpdateUserDTO
 {
     // nothing required here
 }

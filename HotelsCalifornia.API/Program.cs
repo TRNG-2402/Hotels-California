@@ -41,7 +41,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("HotelsCaliforniaUI", policy =>
-        policy.WithOrigins("http://localhost:5173") // TODO: APPEND PORT FOR UI
+        policy.WithOrigins("http://localhost:/5173")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });

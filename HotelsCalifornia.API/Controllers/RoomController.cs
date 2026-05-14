@@ -26,7 +26,7 @@ public class RoomController(IRoomService service) : ControllerBase
         return Ok(await _service.GetRoomsByHotelAsync(hotelId));
     }
 
-    [HttpGet("/id/{roomId}")]
+    [HttpGet("id/{roomId}")]
     [AllowAnonymous]
     public async Task<ActionResult<Room>> GetRoom(int roomId)
     {
@@ -47,7 +47,7 @@ public class RoomController(IRoomService service) : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("/id/{roomId}")]
+    [HttpDelete("id/{roomId}")]
     public async Task<ActionResult> DeleteRoom(int roomId)
     {
         await _service.DeleteRoomAsync(roomId);
