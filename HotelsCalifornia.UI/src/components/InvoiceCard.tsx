@@ -1,5 +1,4 @@
 import type { Invoice } from "../types/Invoice"
-import styles from 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { InvoiceLineItem } from "../types/InvoiceLineItem";
@@ -17,6 +16,11 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
     const [invoiceLineItemsList, setInvoiceLineItemsList] = useState<InvoiceLineItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const total = invoiceLineItemsList.reduce((total, currItem) =>
+    {
+        return total + currItem.amount;
+    }, 0);
 
     useEffect(() =>
     {
@@ -43,7 +47,7 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
                     </section>
                 )
             }
-            <p><strong>Total: </strong></p>
-        </main> >
+            <p>Total: <strong>${total.toFixed(2)}</strong></p>
+        </main>
     )
 }
