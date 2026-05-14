@@ -58,8 +58,9 @@ export default function Hotels() {
             {
               filtered.map((h) => (
                 <div key={h.id}>
+                  <Link to={`/hotels/${h.id}/rooms`}>
                   <HotelCard hotel={h} />
-
+                  </Link>
                   {user?.role === 'Admin' && (
                     <button
                       onClick={() => handleDelete(h.id)}
