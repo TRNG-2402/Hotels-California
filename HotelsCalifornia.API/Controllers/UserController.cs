@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Controllers;
+
 using HotelsCalifornia.Services;
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
@@ -47,13 +48,21 @@ public class UserController(IUserService service) : ControllerBase
     }
 
     [HttpPost("Manager")]
+    [AllowAnonymous]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewManagerDTO newUser)
     {
+        Console.WriteLine("HIT CONTROLLER");
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         User created = await _service.CreateUserAsync(newUser);
         return Created(nameof(CreateUserAsync), created);
     }
 
     [HttpPost("Admin")]
+    [AllowAnonymous]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewAdminDTO newUser)
     {
         User created = await _service.CreateUserAsync(newUser);

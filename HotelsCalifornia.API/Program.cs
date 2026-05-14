@@ -41,7 +41,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("HotelsCaliforniaUI", policy =>
-        policy.WithOrigins("http://localhost:/5173")
+        policy.WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -123,7 +123,6 @@ app.UseCors("HotelsCaliforniaUI");
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseAuthentication();
 
 app.MapControllers();
 

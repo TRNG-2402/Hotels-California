@@ -10,6 +10,7 @@ import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
+import NewHotel from './pages/NewHotel'
 
 function App()
 {
@@ -29,6 +30,7 @@ function App()
           <Route path='/MemberInvoice' element={<MemberInvoice />} />
           <Route path='/Rooms' element={<Rooms />} />
           <Route path='/Hotels' element={<Hotels />} />
+          <Route path='/NewHotel' element={<NewHotel />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
           <Route path='/*' element={<NotFound />} />
