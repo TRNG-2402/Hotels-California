@@ -10,6 +10,7 @@ import ManagerViewHotel from './pages/ManagerViewHotel'
 import AdminViewAccounts from './pages/AdminViewAccounts'
 import NotFound from './pages/NotFound'
 import NavBar from './components/NavBar'
+import ResetPassword from './pages/ResetPassword'
 import NewHotel from './pages/NewHotel'
 import Invoice from './pages/Invoice'
 import RoomsOfHotel from './pages/RoomsOfHotel'
@@ -36,6 +37,7 @@ function App()
           <Route path='/NewHotel' element={<NewHotel />} />
           <Route path='/ManagerViewHotel' element={<ManagerViewHotel />} />
           <Route path='/AdminViewAccounts' element={<AdminViewAccounts />} />
+          <Route path='/ResetPassword' element={<ResetPassword />} />
 
           <Route path='/Invoice' element={<Invoice />} />
           <Route path='/*' element={<NotFound />} />
