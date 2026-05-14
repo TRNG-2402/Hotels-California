@@ -9,7 +9,7 @@ interface InvoiceCardProps
 export default function InvoiceCard({ invoice }: InvoiceCardProps)
 {
     return (
-        <div className={StyleSheet.card}>
+        <div className={styles.card}>
             <ul />
 
             <p>{invoice.isPaid}</p>
