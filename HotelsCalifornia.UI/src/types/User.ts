@@ -44,3 +44,10 @@ export interface Admin
     username : string,
     passwordHash : string
 }
+
+export interface UpdateUserDTO
+{
+    id: number,
+    username: string,
+    passwordHash: string
+}
