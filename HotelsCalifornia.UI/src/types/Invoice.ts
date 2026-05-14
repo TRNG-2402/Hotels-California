@@ -12,3 +12,8 @@ export interface NewInvoice
     reservationId: number,
     isPaid: boolean
 }
+export interface UpdateInvoice
+{
+    Id: number,
+    IsPaid: boolean
+}

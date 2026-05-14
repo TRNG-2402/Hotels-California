@@ -1,10 +1,11 @@
-import type { Invoice } from "../types/Invoice"
+import type { Invoice, UpdateInvoice } from "../types/Invoice"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { InvoiceLineItem } from "../types/InvoiceLineItem";
 import { invoiceLineItemService } from "../services/invoiceLineItemService";
 import EmptyState from "./EmptyState";
 import InvoiceLineItemCard from "./InvoiceLineItemCard";
+import { invoiceService } from "../services/invoiceService";
 
 interface InvoiceCardProps
 {
@@ -21,6 +22,15 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
     {
         return total + currItem.amount;
     }, 0);
+
+    function payInvoice()
+    {
+        const updateInv: UpdateInvoice = {
+            Id: invoice.invoiceId,
+            IsPaid: true
+        }
+        invoiceService.updateInvoice(updateInv)
+    }
 
     useEffect(() =>
     {
@@ -48,6 +58,19 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
                 )
             }
             <p>Total: <strong>${total.toFixed(2)}</strong></p>
+            {
+                invoice.isPaid ? (
+                    <>
+
+                    </>
+                ) : (
+                    <>
+                        <button onClick={payInvoice}>Pay Invoice</button>
+                    </>
+                )
+            }
+
+
         </main>
     )
 }

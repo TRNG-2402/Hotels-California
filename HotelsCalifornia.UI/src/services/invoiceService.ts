@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { Invoice, NewInvoice } from "../types/Invoice";
+import type { Invoice, NewInvoice, UpdateInvoice } from "../types/Invoice";
 
 export const invoiceService = {
     async getAllInvoices(): Promise<Invoice[]>
@@ -21,6 +21,10 @@ export const invoiceService = {
     {
         const response = await api.post<Invoice>(`/Invoice`, newInvoice)
         return response.data
+    },
+    async updateInvoice(updateInvoice: UpdateInvoice): Promise<void>
+    {
+        await api.patch(`/Invoice`, updateInvoice)
     }
 
 
