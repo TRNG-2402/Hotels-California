@@ -3,13 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from '../styles/NavBar.module.css'
 import { useAuth } from '../context/AuthContext'
 
-export default function NavBar()
-{
+export default function NavBar() {
     const { isAuthenticated, user, logout } = useAuth();
     const navigate = useNavigate();
 
-    function handleLogout()
-    {
+    function handleLogout() {
         logout();
         navigate('/login');
     }
@@ -26,6 +24,8 @@ export default function NavBar()
                             <Link to="/Invoice" className={styles.link}>Invoice</Link>
                         ) : (<></>)
                     }
+                </li>
+                <li>
                     {
                         !isAuthenticated || user?.role === 'Admin' ? (
                             <Link to="/Register" className={styles.link}>Register</Link>
