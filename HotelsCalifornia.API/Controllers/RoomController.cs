@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Controllers;
+
 using HotelsCalifornia.DTOs;
 using HotelsCalifornia.Models;
 using HotelsCalifornia.Services;
@@ -47,10 +48,10 @@ public class RoomController(IRoomService service) : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("id/{roomId}")]
-    public async Task<ActionResult> DeleteRoom(int roomId)
+    [HttpDelete("id/{id}")]
+    public async Task<ActionResult> DeleteRoom(int id)
     {
-        await _service.DeleteRoomAsync(roomId);
+        await _service.DeleteRoomAsync(id);
         return NoContent();
     }
 }
