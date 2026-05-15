@@ -5,6 +5,15 @@ import type { Admin, Manager, Member, NewAdminDTO, NewManagerDTO, NewMemberDTO, 
 
 
 export const userService = {
+    async getAllAccounts(): Promise<(Member | Admin | Manager)[]> {
+        const response = await api.get<(Member | Admin | Manager)[]>('User');
+        return response.data;
+    },
+
+    async deleteUser(id: number): Promise<void> {
+        await api.delete(`User/${id}`);
+    },
+
     async postNewManager(newManager: NewManagerDTO): Promise<Manager> {
         const response = await api.post<Manager>(`User/Manager`, newManager);
         return response.data;

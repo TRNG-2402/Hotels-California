@@ -1,0 +1,50 @@
+
+
+.admin-container {
+  padding: 1.5rem;
+  font-family: Arial, sans-serif;
+}
+
+.admin-container h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.admin-container p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: #f2f2f2;
+}
+
+.admin-actions button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-actions button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-actions button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
