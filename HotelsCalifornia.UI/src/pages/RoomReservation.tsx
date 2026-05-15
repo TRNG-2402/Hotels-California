@@ -56,10 +56,13 @@ export default function RoomReservation()
                 isPaid: false
             }
             let invoice: Invoice = await invoiceService.createInvoice(newInvoice)
-
+            const end = new Date(checkOutTime)
+            const start = new Date(checkInTime)
+            var diff = Math.abs(end.getTime() - start.getTime());
+            var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
             let newInvoiceLineItem: NewInvoiceLineItem = {
                 invoiceId: invoice.invoiceId,
-                amount: 150,
+                amount: (room.dailyRate * diffDays),
                 description: "Price of room reservation"
             }
             await invoiceLineItemService.createInvoiceLineItem(newInvoiceLineItem)
