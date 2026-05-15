@@ -54,7 +54,7 @@ export default function RoomsOfHotel()
                 }
             </div>
             <Link to={`/hotels/${hotelId}/rooms/create`}>
-                {user?.role === "Manager" && <button>Click me to create a new room for hotel {hotelId}</button>}
+                {user?.role === "Manager" && user?.hotelId === Number(hotelId) && <button>Click me to create a new room for hotel {hotelId}</button>}
             </Link>
         </main>
     )
