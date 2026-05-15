@@ -15,5 +15,6 @@ export interface AuthUser
     userId: number;
     username: string;
     role: 'Member' | 'Manager' | 'Admin';
+    hotelId?: number;
 }
 

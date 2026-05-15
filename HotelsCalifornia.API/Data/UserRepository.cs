@@ -81,9 +81,10 @@ public class UserRepository(AppDbContext context) : IUserRepository
             {
                 Admin a => "Admin",
                 Manager m => "Manager",
-                User u => "User",
+                Member m => "Member",
                 _ => "Unknown"
-            }
+            },
+            HotelId = user is Manager manager ? manager.HotelId : null
         };
     }
 

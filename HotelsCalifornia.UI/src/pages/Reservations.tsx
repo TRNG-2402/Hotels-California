@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import type { Reservation } from "../types/Reservation";
 import ReservationCard from "../components/ReservationCard";
 import { reservationService } from "../services/reservationService";
+import { useAuth } from "../context/AuthContext";
 import styles from "../styles/Reservations.module.css";
 
 export default function Reservations() {
+  const { user } = useAuth();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,11 +19,31 @@ export default function Reservations() {
         setIsLoading(true);
         setError(null);
 
-        const results = await reservationService.getAllReservations();
+        if (!user) {
+          setReservations([]);
+          setError("Please log in to view your reservations.");
+          return;
+        }
+
+        let results: Reservation[];
+
+        if (user.role === "Manager") {
+          if (user.hotelId === undefined) {
+            setReservations([]);
+            setError("Unable to determine your assigned hotel.");
+            return;
+          }
+
+          results = await reservationService.getReservationsByHotelId(user.hotelId);
+        }
+        else if (user.role === "Admin") {
+          results = await reservationService.getAllReservations();
+        }
+        else {
+          results = await reservationService.getReservationsByMemberId(user.userId);
+        }
 
         if (isMounted) {
-          console.log(results);
-
           setReservations(results);
         }
       }
@@ -42,7 +64,7 @@ export default function Reservations() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [user]);
 
   return (
     <div className={styles.reservationContainer}>

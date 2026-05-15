@@ -3,6 +3,7 @@ using HotelsCalifornia.Services;
 using HotelsCalifornia.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -22,7 +23,35 @@ public class ReservationController(IReservationService service) : ControllerBase
     [Authorize(Policy = "ManagerOnly")]
     public async Task<ActionResult<IEnumerable<OutReservationDTO>>> GetReservationsByHotel(int hotelId)
     {
+        string? managerHotelIdClaim = User.FindFirstValue("hotelId");
+
+        if (managerHotelIdClaim is null)
+            return Unauthorized();
+
+        int managerHotelId = int.Parse(managerHotelIdClaim);
+
+        if (hotelId != managerHotelId)
+            return Forbid();
+
         return Ok(await _service.GetReservationsByHotelAsync(hotelId));
+    }
+
+    [HttpGet("reservation/member/{memberId}")]
+    [Authorize(Roles = "Admin,Manager,Member")]
+    public async Task<ActionResult<IEnumerable<OutReservationDTO>>> GetReservationsByMemberId(int memberId)
+    {
+        string? loggedInUserIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (loggedInUserIdClaim is null)
+            return Unauthorized();
+
+        int loggedInUserId = int.Parse(loggedInUserIdClaim);
+        bool canViewOtherMembers = User.IsInRole("Admin") || User.IsInRole("Manager");
+
+        if (!canViewOtherMembers && memberId != loggedInUserId)
+            return Forbid();
+
+        return Ok(await _service.GetReservationsByMemberIdAsync(memberId));
     }
 
     [HttpGet("/id/{reservationId}")]

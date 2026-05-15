@@ -17,6 +17,10 @@ public interface IReservationRepository
     /// </summary>
     Task<IEnumerable<Reservation>> GetReservationsByHotelAsync(int hotelId);
     /// <summary>
+    /// Gets all reservations in the database fitting a certain member.
+    /// </summary>
+    Task<IEnumerable<Reservation>> GetReservationsByMemberIdAsync(int memberId);
+    /// <summary>
     /// Gets a reservation by its associated ID
     /// </summary>
     Task<Reservation> GetReservationAsync(int reservationId);
@@ -43,6 +47,12 @@ public class ReservationRepository(AppDbContext context) : IReservationRepositor
     {
         return await _context.Reservations
             .Where(r => r.HotelId == hotelId).ToListAsync();
+    }
+
+    public async Task<IEnumerable<Reservation>> GetReservationsByMemberIdAsync(int memberId)
+    {
+        return await _context.Reservations
+            .Where(r => r.MemberId == memberId).ToListAsync();
     }
 
     public async Task<Reservation> GetReservationAsync(int reservationId)
