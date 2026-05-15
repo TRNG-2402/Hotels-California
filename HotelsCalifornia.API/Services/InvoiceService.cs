@@ -33,17 +33,9 @@ public class InvoiceService : IInvoiceService
         if (memberId < 0)
             throw new ArgumentOutOfRangeException("Member ID must be a positive number");
 
-        var allInvoices = await _repo.GetInvoicesAsync();
-        List<Invoice> output = [];
+        return await _repo.GetInvoicesByMemberIdAsync(memberId);
 
-        foreach (var r in allInvoices)
-        {
-            if (r.MemberId == memberId)
-            {
-                output.Append(r);
-            }
-        }
-        return output;
+
     }
 
     public async Task<Invoice> GetInvoiceAsync(int id)

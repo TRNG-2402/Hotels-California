@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Data;
+
 using HotelsCalifornia.Models;
 using Microsoft.EntityFrameworkCore;
 using HotelsCalifornia.DTOs;
@@ -6,6 +7,7 @@ using HotelsCalifornia.DTOs;
 public interface IInvoiceRepository
 {
     Task<IEnumerable<Invoice>> GetInvoicesAsync();
+    Task<IEnumerable<Invoice>> GetInvoicesByMemberIdAsync(int id);
     Task<Invoice> GetInvoiceByIdAsync(int id);
     Task<Invoice> CreateInvoiceAsync(Invoice newInvoice);
     Task<Invoice> UpdateInvoiceAsync(UpdateInvoiceDTO invoiceToUpdate);
@@ -24,6 +26,12 @@ public class InvoiceRepository : IInvoiceRepository
     public async Task<IEnumerable<Invoice>> GetInvoicesAsync()
     {
         return await _context.Invoices.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Invoice>> GetInvoicesByMemberIdAsync(int memberId)
+    {
+        return await _context.Invoices
+            .Where(r => r.MemberId == memberId).ToListAsync();
     }
 
     public async Task<Invoice> GetInvoiceByIdAsync(int id)
@@ -52,7 +60,7 @@ public class InvoiceRepository : IInvoiceRepository
     {
         Invoice invoiceToDelete = await GetInvoiceByIdAsync(id);
         _context.Invoices.Remove(invoiceToDelete);
-        
+
         await _context.SaveChangesAsync();
         return invoiceToDelete;
     }

@@ -31,17 +31,8 @@ public class InvoiceLineItemService(IInvoiceLineItemRepository repo) : IInvoiceL
         if (invoiceId < 0)
             throw new ArgumentOutOfRangeException("Invoice ID must be a positive number");
 
-        var allInvoiceLineItems = await _repo.GetInvoiceLineItemsAsync();
-        List<InvoiceLineItem> output = [];
+        return await _repo.GetInvoiceLineItemsByInvoiceIdAsync(invoiceId);
 
-        foreach (var r in allInvoiceLineItems)
-        {
-            if (r.InvoiceId == invoiceId)
-            {
-                output.Append(r);
-            }
-        }
-        return output;
     }
 
     public async Task<InvoiceLineItem> GetinvoiceLineItemByIdAsync(int invoiceLineItemId)

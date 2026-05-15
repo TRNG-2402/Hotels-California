@@ -8,6 +8,7 @@ public interface IInvoiceLineItemRepository
 {
     Task<IEnumerable<InvoiceLineItem>> GetInvoiceLineItemsAsync();
 
+    Task<IEnumerable<InvoiceLineItem>> GetInvoiceLineItemsByInvoiceIdAsync(int invoiceId);
     Task<InvoiceLineItem> GetInvoiceLineItemByIdAsync(int id);
 
     Task<InvoiceLineItem> CreateInvoiceLineItemAsync(NewInvoiceLineItemDTO newInvoiceLineItem);
@@ -24,6 +25,11 @@ public class InvoiceLineItemRepository(AppDbContext context) : IInvoiceLineItemR
     public async Task<IEnumerable<InvoiceLineItem>> GetInvoiceLineItemsAsync()
     {
         return await _context.InvoiceLineItems.ToListAsync();
+    }
+    public async Task<IEnumerable<InvoiceLineItem>> GetInvoiceLineItemsByInvoiceIdAsync(int invoiceId)
+    {
+        return await _context.InvoiceLineItems
+            .Where(i => i.InvoiceId == invoiceId).ToListAsync();
     }
 
     public async Task<InvoiceLineItem> GetInvoiceLineItemByIdAsync(int id)
