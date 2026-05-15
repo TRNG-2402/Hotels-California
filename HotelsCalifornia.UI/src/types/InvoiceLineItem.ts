@@ -7,3 +7,10 @@ export interface InvoiceLineItem
     amount: number,
     description: string
 }
+
+export interface NewInvoiceLineItem
+{
+    invoiceId: number,
+    amount: number,
+    description: string
+}

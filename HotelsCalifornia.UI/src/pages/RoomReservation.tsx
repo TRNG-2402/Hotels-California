@@ -4,6 +4,11 @@ import { roomService } from "../services/roomService";
 import { reservationService } from "../services/reservationService";
 import { useAuth } from "../context/AuthContext";
 import type { Room } from "../types/Room";
+import type { Reservation } from "../types/Reservation";
+import type { Invoice, NewInvoice } from "../types/Invoice";
+import { invoiceService } from "../services/invoiceService";
+import type { NewInvoiceLineItem } from "../types/InvoiceLineItem";
+import { invoiceLineItemService } from "../services/invoiceLineItemService";
 
 export default function RoomReservation()
 {
@@ -35,7 +40,7 @@ export default function RoomReservation()
 
         try
         {
-            await reservationService.createReservation({
+            let reservation: Reservation = await reservationService.createReservation({
                 memberId: user.userId,
                 roomId: room.id,
                 hotelId: room.hotelId,
@@ -45,6 +50,21 @@ export default function RoomReservation()
                 email,
                 phoneNumber
             });
+            let newInvoice: NewInvoice = {
+                memberId: user.userId,
+                reservationId: reservation.reservationId,
+                isPaid: false
+            }
+            let invoice: Invoice = await invoiceService.createInvoice(newInvoice)
+
+            let newInvoiceLineItem: NewInvoiceLineItem = {
+                invoiceId: invoice.invoiceId,
+                amount: 150,
+                description: "Price of room reservation"
+            }
+            await invoiceLineItemService.createInvoiceLineItem(newInvoiceLineItem)
+
+
 
             alert("Reservation created!");
             navigate(-1);
