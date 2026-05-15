@@ -1,4 +1,4 @@
-import RoomCard from "../components/RoomCard"
+import { RoomCardWithDelete } from "../components/RoomCard"
 import type { Room } from "../types/Room"
 import { useState, useEffect } from "react"
 import { roomService } from "../services/roomService"
@@ -10,6 +10,22 @@ export default function RoomsOfHotel()
     const [roomList, setRoomList] = useState<Room[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const handleDelete = async (id: number) =>
+    {
+        if (!confirm("Will delete the room")) return;
+
+        try
+        {
+            await roomService.deleteRoom(id);
+            alert("Room deleted!")
+            setRoomList(prev => prev.filter(r => r.id !== id));
+        }
+        catch (err: any)
+        {
+            throw new Error(err.response?.data?.message ?? "Failed to delete the room...")
+        }
+    }
 
     useEffect(() =>
     {
@@ -35,7 +51,9 @@ export default function RoomsOfHotel()
                     roomList.length === 0 ? (
                         <p>Sorry! There's no room for id={hotelId}</p>
                     ) :
-                        roomList.map((r) => <RoomCard key={r.id} room={r} />)
+                        roomList.map((r) =>
+                            <RoomCardWithDelete key={r.id} room={r} onDelete={handleDelete} />
+                        )
                 }
             </div>
             <Link to={`/hotels/${hotelId}/rooms/create`}>

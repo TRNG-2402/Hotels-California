@@ -1,4 +1,4 @@
-import RoomCard from "../components/RoomCard"
+import { RoomCard } from "../components/RoomCard"
 import type { Room } from "../types/Room"
 import { useState, useEffect } from "react"
 import { roomService } from "../services/roomService"
@@ -30,8 +30,9 @@ export default function Rooms()
               <p>Sorry! There's no rooms</p>
             ) :
 
-            roomList.map((r) => <RoomCard key={r.id} room={r} />)
-
+            roomList.map((r) =>
+              <RoomCard key={r.id} room={r} />
+            )
         }
       </div>
     </main>
