@@ -33,5 +33,17 @@ export const reservationService = {
     {
         const response = await api.post("/Reservation", data);
         return response.data;
+    },
+
+    async updateReservation(data: {
+        reservationId: number;
+        checkOutTime: string | null;
+        driversLicense: string | null;
+        email: string | null;
+        phoneNumber: string | null;
+        isCanceled: boolean
+    }) {
+        const response = await api.patch("/Reservation", data);
+        return response.data;
     }
 }
