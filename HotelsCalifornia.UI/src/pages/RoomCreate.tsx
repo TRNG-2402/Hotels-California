@@ -44,6 +44,8 @@ export default function CreateRoom()
                     />
                 </label>
 
+                <br/>
+
                 <label> Daily Rate
                     <input
                         type="number"
@@ -53,6 +55,8 @@ export default function CreateRoom()
                     />
                 </label>
 
+                <br/>
+
                 <label> Number of Beds
                     <input
                         type="number"
@@ -61,6 +65,7 @@ export default function CreateRoom()
                         onChange={(e) => setRoom({ ...room, numBeds: Number(e.target.value) })}
                     />
                 </label>
+                <br/>
 
                 <label>Descriptions (Optional)
                     <textarea
@@ -69,6 +74,7 @@ export default function CreateRoom()
                         onChange={(e) => setRoom({ ...room, description: e.target.value })}
                     />
                 </label>
+                <br/>
                 <button type="submit">Create</button>
             </form>
         </main>

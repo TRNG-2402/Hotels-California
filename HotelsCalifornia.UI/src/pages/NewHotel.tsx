@@ -8,6 +8,8 @@ import type { NewManagerDTO } from "../types/User";
 export default function NewHotel() {
 
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -15,8 +17,7 @@ export default function NewHotel() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const password = "ChangeMe";
+  
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -26,6 +27,11 @@ export default function NewHotel() {
 
     setError("");
     setLoading(true);
+
+    if (password !== confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+    }
 
     try {
 
@@ -82,6 +88,25 @@ export default function NewHotel() {
               placeholder="Manager Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+
+            <br />
+
+            <input
+              type="password"
+              placeholder="Manager Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <br />
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
