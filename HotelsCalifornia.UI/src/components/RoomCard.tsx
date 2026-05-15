@@ -26,7 +26,7 @@ export function RoomCard({ room }: RoomCardProps)
             <p>Number of beds: {room.numBeds}</p>
             <p>Daily Rate: {room.dailyRate}</p>
 
-            {user?.role === "Manager" && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
+            {user?.role === "Manager" && user?.hotelId === room.hotelId && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
         </div>
     )
 }
@@ -44,9 +44,9 @@ export function RoomCardWithDelete({ room, onDelete }: RoomCardWithDeleteProps)
 
             <Link to={`/reservation/create/${room.id}`}>Reserve Now!</Link>
             <> </>
-            {user?.role === "Manager" && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
+            {user?.role === "Manager" && user?.hotelId === room.hotelId && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
             <> </>
-            {user?.role === "Manager" && <button onClick={() => onDelete(room.id)}>Delete</button>}
+            {user?.role === "Manager" && user?.hotelId === room.hotelId && <button onClick={() => onDelete(room.id)}>Delete</button>}
         </div>
     )
 }

@@ -40,7 +40,7 @@ export default function RoomUpdate()
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Room Number (Currently we can't update this field):
+                Room Number:
                 <input
                     value={room.roomNumber}
                     onChange={e => setRoom({ ...room, roomNumber: Number(e.target.value) })}
