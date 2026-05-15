@@ -10,9 +10,9 @@ export default function HotelCard({ hotel }: HotelCardProps) {
 
     return (
         <div className={styles.card}>
-            <h3>{hotel.name}</h3>
-            <p>{hotel.description ?? 'No description'}</p><br/>
-            <p><strong>{hotel.address}</strong></p>
+            <h3 className={styles.name}>{hotel.name}</h3>
+            <p className={styles.address}>{hotel.address}</p>
+            <p className={styles.description}>{hotel.description ?? 'No description'}</p>
         </div>
 
     )
