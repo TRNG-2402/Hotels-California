@@ -1,7 +1,5 @@
 import type { InvoiceLineItem } from "../types/InvoiceLineItem"
 
-
-
 interface InvoiceLineItemProps
 {
     invoiceLineItem: InvoiceLineItem;
