@@ -70,7 +70,7 @@ public class ReservationController(IReservationService service) : ControllerBase
     }
 
     [HttpPatch]
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Admin,Manager,Member")]
     public async Task<ActionResult> UpdateReservation([FromBody] UpdateReservationDTO updateRes)
     {
         await _service.UpdateReservationAsync(updateRes);

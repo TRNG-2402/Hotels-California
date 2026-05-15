@@ -4,6 +4,7 @@ import type { Hotel } from '../types/Hotel';
 import type { Room } from '../types/Room';
 import { hotelService } from '../services/hotelService';
 import { roomService } from '../services/roomService';
+import { reservationService } from '../services/reservationService';
 import styles from '../styles/ReservationCard.module.css';
 
 interface ReservationCardProps {
@@ -64,7 +65,19 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
         return () => {
             isMounted = false;
         };
-    }, [reservation.hotelId, reservation.roomId]);
+    }, [reservation.hotelId, reservation.roomId, reservation.isCanceled]);
+
+    function cancelReservation(id: number) {
+        reservationService.updateReservation({
+            reservationId: id,
+            isCanceled: true,
+            checkOutTime: null,
+            driversLicense: null,
+            email: null,
+            phoneNumber: null
+        });
+        reservation.isCanceled = true;
+    }
 
     return (
         <div className={styles.card}>
@@ -98,6 +111,13 @@ export default function ReservationCard({ reservation }: ReservationCardProps) {
                     <span className={styles.label}>Check Out</span>
                     <p>{formatDate(reservation.checkOutTime)}</p>
                 </div>
+
+                <br />
+                <button 
+                onClick={() => cancelReservation(reservation.reservationId)}>
+                Cancel
+                </button>
+
             </div>
         </div>
     );
