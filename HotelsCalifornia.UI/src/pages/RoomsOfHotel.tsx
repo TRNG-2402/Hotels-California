@@ -3,6 +3,7 @@ import type { Room } from "../types/Room"
 import { useState, useEffect } from "react"
 import { roomService } from "../services/roomService"
 import { Link, useParams } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function RoomsOfHotel()
 {
@@ -10,6 +11,7 @@ export default function RoomsOfHotel()
     const [roomList, setRoomList] = useState<Room[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { user } = useAuth();
 
     const handleDelete = async (id: number) =>
     {
@@ -57,7 +59,7 @@ export default function RoomsOfHotel()
                 }
             </div>
             <Link to={`/hotels/${hotelId}/rooms/create`}>
-                <button>Click me to create a new room for hotel {hotelId}</button>
+                {user?.role === "Manager" && <button>Click me to create a new room for hotel {hotelId}</button>}
             </Link>
         </main>
     )
