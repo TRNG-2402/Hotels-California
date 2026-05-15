@@ -24,6 +24,7 @@ interface JwtPayLoad
     nameid?: string;
     unique_name?: string;
     role?: 'Member' | 'Manager' | 'Admin';
+    hotelId?: string | number;
     [NAMEID_URI]?: string;
     [NAME_URI]?: string;
     [ROLE_URI]?: 'Member' | 'Manager' | 'Admin';
@@ -36,11 +37,13 @@ function decodeUser(token: string): AuthUser
     const id = payload.nameid ?? payload[NAMEID_URI] ?? '0';
     const name = payload.unique_name ?? payload[NAME_URI] ?? '';
     const role = (payload.role ?? payload[ROLE_URI] ?? 'Member') as 'Member' | 'Manager' | 'Admin';
+    const hotelId = payload.hotelId === undefined ? undefined : Number(payload.hotelId);
 
     return {
         userId: Number(id),
         username: name,
-        role
+        role,
+        hotelId
     }
 }
 

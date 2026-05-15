@@ -30,12 +30,15 @@ public class AuthService(IUserRepository repo, IConfiguration config) : IAuthSer
 
     private TokenResponseDTO BuildToken(BuildTokenDTO user)
     {
-        Claim[] claims =
+        List<Claim> claims =
         [
             new Claim(ClaimTypes.NameIdentifier, user.NameIdentifier),
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Role, user.Role)
         ];
+
+        if (user.HotelId is not null)
+            claims.Add(new Claim("hotelId", user.HotelId.Value.ToString()));
         
         string jwtKey = _config["Jwt:Key"]
             ?? throw new InvalidOperationException("Jwt:Key missing from config");
@@ -49,7 +52,7 @@ public class AuthService(IUserRepository repo, IConfiguration config) : IAuthSer
         JwtSecurityToken token = new(
             issuer: jwtIssuer,
             audience: jwtAudience,
-            claims: claims,
+            claims: claims.ToArray(),
             expires: expires,
             signingCredentials: creds
         );

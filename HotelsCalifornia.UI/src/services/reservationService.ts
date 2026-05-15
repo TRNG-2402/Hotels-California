@@ -8,6 +8,18 @@ export const reservationService = {
         return response.data;
     },
 
+    async getReservationsByMemberId(memberId: number): Promise<Reservation[]>
+    {
+        const response = await api.get<Reservation[]>(`/Reservation/reservation/member/${memberId}`);
+        return response.data;
+    },
+
+    async getReservationsByHotelId(hotelId: number): Promise<Reservation[]>
+    {
+        const response = await api.get<Reservation[]>(`/Reservation/reservation/hotel/${hotelId}`);
+        return response.data;
+    },
+
     async createReservation(data: {
         memberId: number;
         roomId: number;
