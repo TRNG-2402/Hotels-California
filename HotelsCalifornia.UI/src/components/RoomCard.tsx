@@ -8,9 +8,8 @@ interface RoomCardProps
     room: Room
 }
 
-interface RoomCardWithDeleteProps
+interface RoomCardWithDeleteProps extends RoomCardProps
 {
-    room: Room
     onDelete: (id: number) => void;
 }
 

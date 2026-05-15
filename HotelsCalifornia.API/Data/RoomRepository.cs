@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Data;
+
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -72,12 +73,15 @@ public class RoomRepository(AppDbContext context) : IRoomRepository
         return room;
     }
 
-    public async Task<Room> UpdateRoomAsync(UpdateRoomDTO updateRoom) {
+    public async Task<Room> UpdateRoomAsync(UpdateRoomDTO updateRoom)
+    {
         Room toUpdate = await GetRoomByIdAsync(updateRoom.Id);
         if (updateRoom.DailyRate > 0)
             toUpdate.DailyRate = updateRoom.DailyRate;
         if (updateRoom.NumBeds > 0)
             toUpdate.NumBeds = updateRoom.NumBeds;
+        if (updateRoom.RoomNumber > 0)
+            toUpdate.RoomNumber = updateRoom.RoomNumber;
         if (updateRoom.Description is not null)
             toUpdate.Description = updateRoom.Description;
         await _context.SaveChangesAsync();
