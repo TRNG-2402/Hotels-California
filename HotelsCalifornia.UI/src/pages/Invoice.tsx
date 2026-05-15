@@ -138,7 +138,7 @@ export default function Invoice()
                             <section>
                                 {filtered.map((p) => (
                                     <>
-                                        <p>Invoice ID: {p.id}</p>
+
                                         <InvoiceCard key={p.id} invoice={p} />
                                         {
                                             user?.role === "Manager" ? (
