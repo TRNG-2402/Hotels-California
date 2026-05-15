@@ -1,7 +1,7 @@
 
 export interface Invoice
 {
-    invoiceId: number,
+    id: number,
     memberId: number,
     reservationId: number,
     isPaid: boolean

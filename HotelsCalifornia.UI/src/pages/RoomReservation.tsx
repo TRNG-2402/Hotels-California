@@ -61,7 +61,7 @@ export default function RoomReservation()
             var diff = Math.abs(end.getTime() - start.getTime());
             var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
             let newInvoiceLineItem: NewInvoiceLineItem = {
-                invoiceId: invoice.invoiceId,
+                invoiceId: invoice.id,
                 amount: (room.dailyRate * diffDays),
                 description: "Price of room reservation"
             }

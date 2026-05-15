@@ -138,7 +138,8 @@ export default function Invoice()
                             <section>
                                 {filtered.map((p) => (
                                     <>
-                                        <InvoiceCard key={p.invoiceId} invoice={p} />
+                                        <p>Invoice ID: {p.id}</p>
+                                        <InvoiceCard key={p.id} invoice={p} />
                                         {
                                             user?.role === "Manager" ? (
                                                 <>
@@ -149,7 +150,7 @@ export default function Invoice()
                                                             step="0.01"
                                                             placeholder="0"
                                                             value={amount}
-                                                            onChange={(e) => { setAmount(Number(e.target.value)); setInvoiceId(p.invoiceId) }}
+                                                            onChange={(e) => { setAmount(Number(e.target.value)); setInvoiceId(p.id) }}
                                                             required
                                                             style={inputStyle}
                                                         />
@@ -195,7 +196,7 @@ export default function Invoice()
                         <>
                             <section>
                                 {invoiceList.map((p) => (
-                                    <InvoiceCard key={p.invoiceId} invoice={p} />
+                                    <InvoiceCard key={p.id} invoice={p} />
                                 ))}
 
                             </section>

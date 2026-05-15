@@ -25,7 +25,7 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
     function payInvoice()
     {
         const updateInv: UpdateInvoice = {
-            Id: invoice.invoiceId,
+            Id: invoice.id,
             IsPaid: true
         }
         invoiceService.updateInvoice(updateInv)
@@ -33,7 +33,7 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
 
     useEffect(() =>
     {
-        invoiceLineItemService.getAllInvoiceLineItemsByInvoiceId(invoice.invoiceId)
+        invoiceLineItemService.getAllInvoiceLineItemsByInvoiceId(invoice.id)
             .then((data) => setInvoiceLineItemsList(data))
             .catch((err) => setError(err.message ?? 'Failed to load InvoiceLineItems'))
             .finally(() => setIsLoading(false))
@@ -46,7 +46,7 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps)
         <main>
             {
                 invoiceLineItemsList.length === 0 ? (
-                    <EmptyState message={`No charges for "${invoice.invoiceId}"`} />
+                    <EmptyState message={`No charges for "${invoice.id}"`} />
                 ) : (
 
                     <section>
