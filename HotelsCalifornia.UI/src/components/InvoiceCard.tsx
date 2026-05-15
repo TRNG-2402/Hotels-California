@@ -1,5 +1,4 @@
 import type { Invoice, UpdateInvoice } from "../types/Invoice"
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { InvoiceLineItem } from "../types/InvoiceLineItem";
 import { invoiceLineItemService } from "../services/invoiceLineItemService";
