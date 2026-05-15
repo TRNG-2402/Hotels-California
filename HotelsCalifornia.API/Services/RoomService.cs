@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Services;
+
 using HotelsCalifornia.Data;
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
@@ -75,6 +76,7 @@ public class RoomService(IRoomRepository repo) : IRoomService
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");
         if (updateRoom.DailyRate <= 0 &&
             updateRoom.NumBeds < 1 &&
+            updateRoom.RoomNumber <= 0 &&
             updateRoom.Description is null)
             throw new ArgumentException("No information inserted to update room");
         if (updateRoom.Description?.Length > 500)

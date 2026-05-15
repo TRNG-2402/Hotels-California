@@ -14,7 +14,6 @@ export default function Register() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [adminForm, setAdminForm] = useState(false);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -69,13 +68,9 @@ export default function Register() {
     return (
         <div>
             <h2>Register here!</h2>
-            {user?.role == 'Admin' && (
-            <button onClick={() => setAdminForm(!adminForm)}>
-                Switch Forms
-            </button>
-            )}
+            
 
-            {adminForm === false && (
+            {user?.role !== 'Admin' && (
             <form onSubmit={handleSubmitMember}>
                 <label>New Member</label>
                 <div>
@@ -136,7 +131,7 @@ export default function Register() {
                 </button>
             </form>
             )}
-            {adminForm === true && (
+            {user?.role === 'Admin' && (
             <form onSubmit={handleSubmitAdmin}>
                 <label>New Admin</label>
                 <div>
