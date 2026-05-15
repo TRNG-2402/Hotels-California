@@ -52,12 +52,6 @@ public class UserController(IUserService service) : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<User>> CreateUserAsync([FromBody] NewManagerDTO newUser)
     {
-        Console.WriteLine("HIT CONTROLLER");
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         User created = await _service.CreateUserAsync(newUser);
         return Created(nameof(CreateUserAsync), created);
     }

@@ -127,3 +127,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+Console.WriteLine(builder.Environment.EnvironmentName);
+Console.WriteLine(builder.Configuration.GetConnectionString("DevConnection"));

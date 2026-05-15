@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelsCalifornia.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260512183725_PhoneNumberToString")]
-    partial class PhoneNumberToString
+    [Migration("20260515021827_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,9 +65,8 @@ namespace HotelsCalifornia.API.Migrations
                     b.Property<int?>("MemberId")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("ReservationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

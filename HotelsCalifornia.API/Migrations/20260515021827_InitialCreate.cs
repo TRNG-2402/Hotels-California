@@ -19,7 +19,7 @@ namespace HotelsCalifornia.API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,7 +48,7 @@ namespace HotelsCalifornia.API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MemberId = table.Column<int>(type: "int", nullable: true),
-                    ReservationId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReservationId = table.Column<int>(type: "int", nullable: false),
                     IsPaid = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -66,10 +66,9 @@ namespace HotelsCalifornia.API.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     User_type = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     HotelId = table.Column<int>(type: "int", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: true),
                     LicenseNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RewardPoints = table.Column<int>(type: "int", nullable: true),
                     InBlocklist = table.Column<bool>(type: "bit", nullable: true)
                 },
@@ -114,7 +113,7 @@ namespace HotelsCalifornia.API.Migrations
                     CheckOutTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DriversLicense = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsCanceled = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

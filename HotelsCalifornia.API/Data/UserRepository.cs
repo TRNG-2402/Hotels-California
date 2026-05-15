@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing.Template;
 using System.Diagnostics;
 using System.Buffers;
+using System.Text.Json;
 
 public interface IUserRepository
 {
@@ -122,7 +123,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
             _ => throw new ArgumentException("Invalid user type")
         };
 
-
+        Console.WriteLine(JsonSerializer.Serialize(dto));
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
         return user;
