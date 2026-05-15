@@ -95,8 +95,8 @@ public class UserService(IUserRepository repo, IHotelRepository hotelRepository)
 
         if (newUser is NewMemberDTO newMember)
         {
-            if (newMember.LicenseNumber.Length > 7 || newMember.LicenseNumber.Length < 31) 
-                throw new ArgumentException("Licence number must be bewteen 7 and 31 characters");
+            if (newMember.LicenseNumber.Length < 7 || newMember.LicenseNumber.Length > 31) 
+                throw new ArgumentException("License number must be between 7 and 31 characters");
             if (!IsValidEmail(newMember.Email))
                 throw new ArgumentException("Invalid email");
             if (!IsValidPhoneNumber(newMember.PhoneNumber))

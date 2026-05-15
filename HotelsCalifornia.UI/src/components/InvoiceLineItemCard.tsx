@@ -1,6 +1,4 @@
 import type { InvoiceLineItem } from "../types/InvoiceLineItem"
-import styles from 
-import { Link } from "react-router-dom"
 
 interface InvoiceLineItemProps
 {
@@ -11,7 +9,7 @@ export default function InvoiceLineItemCard({ invoiceLineItem }: InvoiceLineItem
 {
     return (
 
-        <div className={styles.card}>
+        <div>
             <p><strong>${invoiceLineItem.amount.toFixed(2)}</strong></p>
             <p>{invoiceLineItem.description ?? 'No descriptrion'}</p>
         </div>
