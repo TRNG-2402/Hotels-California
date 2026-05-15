@@ -45,7 +45,7 @@ public class User
 public class Member : User
 {
     [Required]
-    [Range(9, 14)]
+    [StringLength(31, MinimumLength = 7)]
     public required string LicenseNumber { get; set; }
     [Required]
     [MaxLength(50)]
