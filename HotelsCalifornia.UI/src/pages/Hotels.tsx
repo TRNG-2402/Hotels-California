@@ -6,6 +6,7 @@ import { hotelService } from "../services/hotelService"
 import SearchBar from "../components/SearchBar"
 import { useAuth } from "../context/AuthContext"
 import { Link } from "react-router-dom"
+import styles from "../styles/Hotels.module.css"
 
 export default function Hotels() {
 
@@ -27,9 +28,9 @@ export default function Hotels() {
       .finally(() => setIsLoading(false))
   }, [])
 
-  if (isLoading) return <main><p>Loading Hotels...</p></main>
+  if (isLoading) return <main className={styles.container}><p className={styles.message}>Loading Hotels...</p></main>
 
-  if (error) return <main><p style={{ color: 'red' }}>{error}</p></main>
+  if (error) return <main className={styles.container}><p className={styles.error}>{error}</p></main>
 
   const filtered = hotelList.filter((h) =>
     h.name.toLowerCase().includes(searchTerm.toLowerCase()));
@@ -40,31 +41,35 @@ export default function Hotels() {
     setHotelList((prev) => prev.filter((h) => h.id !== id));
   }
   return (
-    <main>
-      <h2>Search for hotels</h2>
-      <SearchBar value={searchTerm} onSearchChange={setSearchTerm} />
-      {user?.role === 'Admin' && (
-        <Link to="/NewHotel">
-          <button>
-            New Hotel
-          </button>
-        </Link>
-      )}
+    <main className={styles.container}>
+      <h2 className={styles.title}>Search for hotels</h2>
+      <div className={styles.controls}>
+        <div className={styles.searchBarWrapper}>
+          <SearchBar value={searchTerm} onSearchChange={setSearchTerm} />
+        </div>
+        {user?.role === 'Admin' && (
+          <Link to="/NewHotel">
+            <button>
+              New Hotel
+            </button>
+          </Link>
+        )}
+      </div>
       {
         filtered.length === 0 ? (
           <EmptyState message={`No hotels match "${searchTerm}"`} />
         ) : (
-          <section>
+          <section className={styles.hotelList}>
             {
               filtered.map((h) => (
-                <div key={h.id}>
-                  <Link to={`/hotels/${h.id}/rooms`}>
-                  <HotelCard hotel={h} />
+                <div className={styles.hotelItem} key={h.id}>
+                  <Link className={styles.hotelLink} to={`/hotels/${h.id}/rooms`}>
+                    <HotelCard hotel={h} />
                   </Link>
                   {user?.role === 'Admin' && (
                     <button
                       onClick={() => handleDelete(h.id)}
-                      style={{ marginLeft: '0.5rem' }}
+                      className={styles.deleteButton}
                     >
                       Delete
                     </button>

@@ -1,7 +1,19 @@
 .container {
   min-height: 100vh;
-  padding: 40px;
+  padding: 20px;
   background-color: #f4f6f9;
+}
+
+.title {
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 }
 
 .header {
@@ -23,6 +35,55 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
+}
+
+.searchBarWrapper {
+  width: 60%;
+  max-width: 720px;
+  min-width: 280px;
+}
+
+.hotelList {
+  display: grid;
+  gap: 1rem;
+}
+
+.hotelItem {
+  width: 70%;
+  max-width: 1000px;
+  min-width: 280px;
+  margin: 0 auto;
+}
+
+.hotelLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hotelLink:hover,
+.hotelLink:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.deleteButton {
+  margin-left: 0.5rem;
+}
+
+.message,
+.error {
+  text-align: center;
+}
+
+.error {
+  color: #9d2525;
+}
+
+@media (max-width: 800px) {
+  .searchBarWrapper,
+  .hotelItem {
+    width: calc(100vw - 2rem);
+  }
 }
 
 .hotelCard {
