@@ -28,11 +28,12 @@ export default function NewHotel() {
     setError("");
     setLoading(true);
 
-    try {
+    if (password !== confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+    }
 
-      if (password !== confirmPassword) {
-        throw new Error("Passwords do not match!");
-      }
+    try {
 
       const newHotel: NewHotelDTO = {
         name,

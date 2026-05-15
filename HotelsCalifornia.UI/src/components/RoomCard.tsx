@@ -21,12 +21,11 @@ export function RoomCard({ room }: RoomCardProps)
     return (
         <div className={styles.card}>
             <h3>{room.roomNumber}</h3>
-            <p>(Test only)ID: {room.id}</p>
             <p>{room.description}</p>
             <p>Number of beds: {room.numBeds}</p>
             <p>Daily Rate: {room.dailyRate}</p>
 
-            {user?.role === "Manager" && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
+            {user?.role === "Manager" && user?.hotelId === room.hotelId && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
         </div>
     )
 }
@@ -44,9 +43,8 @@ export function RoomCardWithDelete({ room, onDelete }: RoomCardWithDeleteProps)
 
             <Link to={`/reservation/create/${room.id}`}>Reserve Now!</Link>
             <> </>
-            {user?.role === "Manager" && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
+            {user?.role === "Manager" && user?.hotelId === room.hotelId && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
             <> </>
-            {user?.role === "Manager" && <button onClick={() => onDelete(room.id)}>Delete</button>}
         </div>
     )
 }
