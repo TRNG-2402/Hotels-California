@@ -17,6 +17,7 @@ import RoomsOfHotel from './pages/RoomsOfHotel'
 import Register from './pages/Register'
 import RoomCreate from './pages/RoomCreate'
 import RoomUpdate from './pages/RoomUpdate'
+import RoomReservation from './pages/RoomReservation'
 
 function App()
 {
@@ -33,6 +34,7 @@ function App()
           <Route path='/' element={<Home />} />
           <Route path='/Login' element={<Login />} />
           <Route path='/Reservations' element={<Reservations />} />
+          <Route path="/reservation/create/:roomId" element={<RoomReservation />} />
           <Route path='/MemberInvoice' element={<MemberInvoice />} />
           <Route path='/Rooms' element={<Rooms />} />
           <Route path="/rooms/edit/:roomId" element={<RoomUpdate />} />

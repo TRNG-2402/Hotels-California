@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Services;
+
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
 using HotelsCalifornia.Data;
@@ -39,7 +40,7 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
         foreach (var r in reservations)
             output.Add(toDTO(r));
         return output;
-        
+
     }
 
     public async Task<IEnumerable<OutReservationDTO>> GetReservationsByHotelAsync(int hotelId)
@@ -66,6 +67,8 @@ public class ReservationService(IReservationRepository repo) : IReservationServi
             throw new ArgumentOutOfRangeException("Member ID must be non-negative");
         if (newRes.RoomId < 1)
             throw new ArgumentOutOfRangeException("Room ID must be a positive number");
+        if (newRes.HotelId < 0)
+            throw new ArgumentOutOfRangeException("Hotel ID must be non-negative");
         if (!IsValidEmail(newRes.Email))
             throw new ArgumentException($"{newRes.Email} is not a valid email");
         if (!IsValidPhoneNumber(newRes.PhoneNumber))

@@ -1,6 +1,6 @@
 import type { Room } from "../types/Room"
 //TODO make own styles for room
-import styles from '../styles/HotelCard.module.css'
+import styles from '../styles/RoomCard.module.css'
 import { Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext";
 
@@ -42,7 +42,10 @@ export function RoomCardWithDelete({ room, onDelete }: RoomCardWithDeleteProps)
             <p>Number of beds: {room.numBeds}</p>
             <p>Daily Rate: {room.dailyRate}</p>
 
+            <Link to={`/reservation/create/${room.id}`}>Reserve Now!</Link>
+            <> </>
             {user?.role === "Manager" && <Link to={`/rooms/edit/${room.id}`}>Edit</Link>}
+            <> </>
             {user?.role === "Manager" && <button onClick={() => onDelete(room.id)}>Delete</button>}
         </div>
     )

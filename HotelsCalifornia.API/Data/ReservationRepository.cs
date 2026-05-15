@@ -1,4 +1,5 @@
 namespace HotelsCalifornia.Data;
+
 using HotelsCalifornia.Models;
 using HotelsCalifornia.DTOs;
 using HotelsCalifornia.Services;
@@ -65,6 +66,8 @@ public class ReservationRepository(AppDbContext context) : IReservationRepositor
         };
         if (newRes.MemberId != 0)
             reservation.MemberId = newRes.MemberId;
+        if (newRes.HotelId != 0)
+            reservation.HotelId = newRes.HotelId;
         await _context.Reservations.AddAsync(reservation);
         await _context.SaveChangesAsync();
         return reservation;
